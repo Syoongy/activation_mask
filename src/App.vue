@@ -1,11 +1,16 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
+  <main id="app">
+    <!-- <nav id="nav">
+      <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
-    </div>
+    </nav> -->
     <router-view />
-  </div>
+    <notifications
+      group="submitReq"
+      position="bottom center"
+      classes="custom-notification"
+    ></notifications>
+  </main>
 </template>
 
 <style>
@@ -13,20 +18,17 @@
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+.custom-notification {
+  background: #3abb67 !important;
+  border-left: none;
+  padding: 0.4rem;
+  margin: 0 0.3rem 0.3rem;
+  color: #fff;
+  border-radius: 4px;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.custom-notification .my-success {
 }
 </style>

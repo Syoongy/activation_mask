@@ -1,5 +1,20 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <section class="section">
+    <h1>This is {{ id }}'s page</h1>
+  </section>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      id: ""
+    };
+  },
+  mounted() {
+    this.id = this.$route.params.id;
+  }
+};
+</script>
+
+<style></style>
