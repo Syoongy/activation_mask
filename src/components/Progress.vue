@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <loading-progress
-      :progress="progress"
-      shape="M26.84,29.52v5.58c0,0.89,0.32,1.64,0.95,2.26c0.63,0.62,1.4,0.93,2.3,0.93h36.6c0.9,0,1.67,0.31,2.3,0.94
+  <div class="container is-flex is-centered-flex">
+    <div
+      id="progressBar"
+      data-path="M26.84,29.52v5.58c0,0.89,0.32,1.64,0.95,2.26c0.63,0.62,1.4,0.93,2.3,0.93h36.6c0.9,0,1.67,0.31,2.3,0.94
  c0.63,0.63,0.95,1.39,0.95,2.28v18.81c0,0.9-0.32,1.66-0.95,2.28c-0.63,0.63-1.4,0.94-2.3,0.94H30.1c-0.9,0-1.67,0.31-2.3,0.94
  c-0.63,0.63-0.95,1.39-0.95,2.28v29.69c0,0.9-0.32,1.66-0.94,2.28c-0.63,0.63-1.39,0.94-2.29,0.94H3.24c-0.9,0-1.66-0.31-2.29-0.94
  C0.31,98.11,0,97.35,0,96.46V4.57c0-0.89,0.31-1.66,0.94-2.28c0.63-0.63,1.39-0.94,2.29-0.94h68.88c0.9,0,1.67,0.32,2.3,0.95
@@ -55,19 +55,57 @@ c0.59-0.63,1.38-0.94,2.37-0.94h20.33c0.9,0,1.67,0.31,2.3,0.94C474.56,2.91,474.88
  C713.11,65.51,712.34,65.83,711.44,65.83z M714.15,99.68h-20.33c-1,0-1.79-0.31-2.37-0.94c-0.59-0.63-0.88-1.39-0.88-2.28V77.92
  c0-0.98,0.29-1.77,0.88-2.35c0.59-0.58,1.38-0.87,2.37-0.87h20.33c0.9,0,1.67,0.29,2.3,0.87c0.63,0.58,0.95,1.37,0.95,2.35v18.54
  c0,0.9-0.32,1.66-0.95,2.28C715.82,99.37,715.05,99.68,714.15,99.68z"
-      size="720"
-    ></loading-progress>
+    ></div>
   </div>
 </template>
 
 <script>
+// import ldBar from "@/assets/loading-bar.js";
+import ldBar from "@loadingio/loading-bar";
 export default {
   data() {
     return {
-      progress: -200
+      progress: 0,
+      bar: null,
+      interval: null
     };
+  },
+  mounted() {
+    /* construct manually */
+    this.bar = new ldBar("#progressBar", {
+      type: "fill",
+      "fill-dir": "ltr",
+      fill: "#4BCA81",
+      "fill-background-extrude": 0,
+      "transition-in": 1
+    });
+    console.log(this.bar);
+    this.interval = window.setInterval(this.increase, 2000);
+  },
+  methods: {
+    increase() {
+      if (this.progress < 100) {
+        this.progress += 10;
+        this.bar.set(this.progress);
+      } else {
+        window.clearInterval(this.interval);
+      }
+    }
   }
 };
 </script>
 
-<style></style>
+<style>
+.is-centered-flex {
+  align-items: center;
+  justify-content: center;
+}
+.ldBar-label {
+  text-align: center;
+  font-size: 3rem;
+}
+.ldBar-label:after {
+  content: "%"; /* change from % to USD */
+  font-size: 2.5rem;
+}
+</style>

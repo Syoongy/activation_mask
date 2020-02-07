@@ -1,7 +1,8 @@
 <template>
   <section class="section">
-    <h1 class="title">Finished Products</h1>
-    <Progress />
+    <div class="container">
+      <Progress />
+    </div>
   </section>
 </template>
 
