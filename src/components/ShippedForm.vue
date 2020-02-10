@@ -15,6 +15,20 @@
       </div>
     </div>
     <div class="field">
+      <label class="label">Delivery Location</label>
+      <div class="control">
+        <input
+          type="number"
+          :class="{ input: true, 'is-danger': !isDeliveryCorrect }"
+          @input="validateDelivery"
+          placeholder="Enter delivery ID here"
+          v-model.number="deliveryId"
+          step="1"
+          min="1"
+        />
+      </div>
+    </div>
+    <div class="field">
       <div class="control">
         <button
           class="button  is-fullwidth"
@@ -35,27 +49,38 @@ export default {
   name: "ShippedForm",
   computed: {
     canSubmit() {
-      return this.qty > 0;
+      return this.qty > 0 && this.deliveryId > 0;
     }
   },
   data() {
     return {
       qty: 0,
-      isQtyCorrect: true
+      deliveryId: 0,
+      isQtyCorrect: true,
+      isDeliveryCorrect: true
     };
   },
   methods: {
     async submitForm() {
       //submit to api here
+      //Python api
       const res = await ky.get(
         `http://supplypacking.pythonanywhere.com/add/s-${this.qty}/`
       );
+      //Node api
+      await ky.post("0.0.0.0:8080/delivery", {
+        json: {
+          numBoxes: this.qty,
+          deliveryLocationId: this.deliveryId
+        }
+      });
       console.dir(res);
       this.$notify({
         group: "submitReq",
+        type: "my-success",
         title: "Success!",
         text: "Input has been submitted!",
-        duration: 1500,
+        duration: 1000,
         max: 1
       });
     },
@@ -64,6 +89,9 @@ export default {
     },
     validateQty() {
       this.isQtyCorrect = this.isGreaterThanZero(this.qty);
+    },
+    validateDelivery() {
+      this.isDeliveryCorrect = this.isGreaterThanZero(this.deliveryId);
     }
   }
 };

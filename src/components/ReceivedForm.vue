@@ -102,15 +102,26 @@ export default {
       const dataString = encodeURI(
         `m=${this.mask}&t=${this.thermometer}&h=${this.sanitiser}&z=${this.ziploc}`
       );
+      //Python api
       const res = await ky.get(
         `http://supplypacking.pythonanywhere.com/add/${dataString}/`
       );
+      //Node api
+      await ky.post("0.0.0.0:8080/addReceived", {
+        json: {
+          mask: this.mask,
+          thermometer: this.thermometer,
+          ziploc: this.ziploc,
+          handSanitiser: this.sanitiser
+        }
+      });
       console.dir(res);
       this.$notify({
         group: "submitReq",
+        type: "my-success",
         title: "Success!",
         text: "Input has been submitted!",
-        duration: 1500,
+        duration: 1000,
         max: 1
       });
     },

@@ -66,9 +66,17 @@ export default {
     },
     async submitForm() {
       //submit to api here
+      //Python api
       const res = await ky.get(
         `http://supplypacking.pythonanywhere.com/add_production/${this.name}/${this.qty}/`
       );
+      //Node api
+      await ky.post("0.0.0.0:8080/addFinished", {
+        json: {
+          stationNo: this.name,
+          quantity: this.qty
+        }
+      });
       console.dir(res);
       this.$notify({
         group: "submitReq",
