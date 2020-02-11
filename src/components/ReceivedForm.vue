@@ -107,14 +107,17 @@ export default {
         `http://supplypacking.pythonanywhere.com/add/${dataString}/`
       );
       //Node api
-      await ky.post("0.0.0.0:8080/addReceived", {
-        json: {
-          mask: this.mask,
-          thermometer: this.thermometer,
-          ziploc: this.ziploc,
-          handSanitiser: this.sanitiser
+      await ky.post(
+        "http://ec2-54-255-139-44.ap-southeast-1.compute.amazonaws.com:8080/addReceived",
+        {
+          json: {
+            mask: this.mask,
+            thermometer: this.thermometer,
+            ziploc: this.ziploc,
+            handSanitiser: this.sanitiser
+          }
         }
-      });
+      );
       console.dir(res);
       this.$notify({
         group: "submitReq",

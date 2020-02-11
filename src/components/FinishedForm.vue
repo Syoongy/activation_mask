@@ -71,12 +71,15 @@ export default {
         `http://supplypacking.pythonanywhere.com/add_production/${this.name}/${this.qty}/`
       );
       //Node api
-      await ky.post("0.0.0.0:8080/addFinished", {
-        json: {
-          stationNo: this.name,
-          quantity: this.qty
+      await ky.post(
+        "http://ec2-54-255-139-44.ap-southeast-1.compute.amazonaws.com:8080/addFinished",
+        {
+          json: {
+            stationNo: this.name,
+            quantity: this.qty
+          }
         }
-      });
+      );
       console.dir(res);
       this.$notify({
         group: "submitReq",

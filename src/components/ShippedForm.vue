@@ -68,12 +68,15 @@ export default {
         `http://supplypacking.pythonanywhere.com/add/s-${this.qty}/`
       );
       //Node api
-      await ky.post("0.0.0.0:8080/delivery", {
-        json: {
-          numBoxes: this.qty,
-          deliveryLocationId: this.deliveryId
+      await ky.post(
+        "http://ec2-54-255-139-44.ap-southeast-1.compute.amazonaws.com:8080/delivery",
+        {
+          json: {
+            numBoxes: this.qty,
+            deliveryLocationId: this.deliveryId
+          }
         }
-      });
+      );
       console.dir(res);
       this.$notify({
         group: "submitReq",
