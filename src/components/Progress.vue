@@ -82,6 +82,9 @@ export default {
     console.log(this.bar);
     this.interval = window.setInterval(this.increase, 2000);
   },
+  beforeDestroy() {
+    if (this.interval !== null) window.clearInterval(this.interval);
+  },
   methods: {
     increase() {
       if (this.progress < 100) {
