@@ -72,7 +72,7 @@ export default {
       );
       //Node api
       await ky.post(
-        "http://ec2-54-255-139-44.ap-southeast-1.compute.amazonaws.com:8080/addFinished",
+        "http://192.168.43.168:8080/addFinished",
         {
           json: {
             stationNo: this.name,
@@ -81,6 +81,7 @@ export default {
         }
       );
       console.dir(res);
+      this.$socket.client.emit("addToStationNo", this.name);
       this.$notify({
         group: "submitReq",
         type: "my-success",

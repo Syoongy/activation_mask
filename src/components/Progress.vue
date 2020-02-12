@@ -1,5 +1,5 @@
 <template>
-  <div class="container is-flex is-centered-flex">
+  <div id="progressbar-container" class="container is-flex is-centered-flex">
     <div
       id="progressBar"
       data-path="M26.84,29.52v5.58c0,0.89,0.32,1.64,0.95,2.26c0.63,0.62,1.4,0.93,2.3,0.93h36.6c0.9,0,1.67,0.31,2.3,0.94
@@ -75,7 +75,8 @@ export default {
     this.bar = new ldBar("#progressBar", {
       type: "fill",
       "fill-dir": "ltr",
-      fill: "#4BCA81",
+      fill: "#a3f7bf",
+      "fill-background": "#393e46",
       "fill-background-extrude": 0,
       "transition-in": 1
     });
@@ -99,16 +100,23 @@ export default {
 </script>
 
 <style>
+#progressbar-container {
+  background-color: #393e46;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
 .is-centered-flex {
   align-items: center;
   justify-content: center;
 }
 .ldBar-label {
-  text-align: center;
-  font-size: 3rem;
+  display: none;
+  /* text-align: center;
+  font-size: 3rem; */
 }
-.ldBar-label:after {
-  content: "%"; /* change from % to USD */
+/* .ldBar-label:after {
+  content: "%";
   font-size: 2.5rem;
-}
+} */
 </style>
