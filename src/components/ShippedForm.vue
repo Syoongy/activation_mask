@@ -69,7 +69,7 @@ export default {
       );
       //Node api
       await ky.post(
-        "http://ec2-54-255-139-44.ap-southeast-1.compute.amazonaws.com:8080/delivery",
+        "http://ec2-54-255-139-44.ap-southeast-1.compute.amazonaws.com:8080/shipped",
         {
           json: {
             numBoxes: this.qty,
