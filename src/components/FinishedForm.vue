@@ -71,15 +71,12 @@ export default {
         `http://supplypacking.pythonanywhere.com/add_production/${this.name}/${this.qty}/`
       );
       //Node api
-      await ky.post(
-        "http://192.168.43.168:8080/addFinished",
-        {
-          json: {
-            stationNo: this.name,
-            quantity: this.qty
-          }
+      await ky.post("http://192.168.43.168:8080/addFinished", {
+        json: {
+          stationNo: this.name,
+          quantity: this.qty
         }
-      );
+      });
       console.dir(res);
       this.$socket.client.emit("addToStationNo", this.name);
       this.$notify({

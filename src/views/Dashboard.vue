@@ -30,9 +30,16 @@ export default {
     };
   },
   async mounted() {
-    this.stationList = await ky
-      .get("http://192.168.43.168:8080/getFinished")
-      .json();
+    // this.stationList = await ky
+    //   .get("http://192.168.43.168:8080/getFinished")
+    //   .json();
+    this.stationList = [
+      { stationNo: "1", quantity: 10 },
+      { stationNo: "2", quantity: 20 },
+      { stationNo: "3", quantity: 30 },
+      { stationNo: "4", quantity: 10 },
+      { stationNo: "5", quantity: 12 }
+    ];
   },
   methods: {
     updateStationList(val) {

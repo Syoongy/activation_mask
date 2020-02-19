@@ -29,8 +29,7 @@ export default {
 
 <style>
 .leaderboard-tile {
-  width: 60%;
-  margin: 0.5rem;
+  margin: 0.75rem;
   background-color: #393e46;
   border-radius: 5px;
   padding: 1rem;
