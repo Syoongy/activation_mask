@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <h1 class="title">Shipped Products</h1>
+    <h1 class="title">Storage Products</h1>
     <ShippedForm />
   </section>
 </template>
