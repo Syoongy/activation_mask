@@ -103,22 +103,23 @@ export default {
         `m=${this.mask}&t=${this.thermometer}&h=${this.sanitiser}&z=${this.ziploc}`
       );
       //Python api
-      const res = await ky.get(
+      await ky.get(
         `http://supplypacking.pythonanywhere.com/add/${dataString}/`
       );
       //Node api
-      await ky.post(
-        "http://ec2-54-255-139-44.ap-southeast-1.compute.amazonaws.com:8080/addReceived",
-        {
-          json: {
-            mask: this.mask,
-            thermometer: this.thermometer,
-            ziploc: this.ziploc,
-            handSanitiser: this.sanitiser
-          }
+      await ky.post("http://54.169.249.3:8080/addReceived", {
+        json: {
+          mask: this.mask,
+          thermometer: this.thermometer,
+          ziploc: this.ziploc,
+          handSanitiser: this.sanitiser
         }
-      );
-      console.dir(res);
+      });
+      this.$socket.client.emit("addToReceived");
+      this.mask = 0;
+      this.thermometer = 0;
+      this.sanitiser = 0;
+      this.ziploc = 0;
       this.$notify({
         group: "submitReq",
         type: "my-success",
