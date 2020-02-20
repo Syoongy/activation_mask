@@ -1,16 +1,48 @@
 <template>
   <div class="container">
-    <div class="field">
-      <label class="label">Section No.</label>
-      <div class="control">
+    <label class="label">Table</label>
+    <div class="field is-grouped">
+      <!-- <div class="control">
         <input
           type="number"
           :class="{ input: true, 'is-danger': !isNameCorrect }"
           @input="validateName"
-          placeholder="Enter section no. here"
+          placeholder="Enter table here"
           v-model.number="name"
           maxlength="1"
         />
+      </div> -->
+      <div class="control">
+        <div class="select">
+          <select name="stationAlpha" v-model="sAlpha">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
+            <option value="K">K</option>
+          </select>
+        </div>
+      </div>
+      <div class="control">
+        <div class="select">
+          <select name="stationNum" v-model="sNum">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="field">
@@ -49,12 +81,16 @@ export default {
   name: "FinishedForm",
   computed: {
     canSubmit() {
-      return this.name > 0 && this.qty >= 1 && this.qty <= 50;
+      return this.qty >= 1 && this.qty <= 50;
+    },
+    name() {
+      return this.sAlpha + this.sNum;
     }
   },
   data() {
     return {
-      name: null,
+      sAlpha: "A",
+      sNum: "1",
       qty: 1,
       isNameCorrect: true,
       isQtyCorrect: true
@@ -71,14 +107,15 @@ export default {
         `http://supplypacking.pythonanywhere.com/add_production/${this.name}/${this.qty}/`
       );
       //Node api
-      await ky.post("http://192.168.43.168:8080/addFinished", {
+      await ky.post("http://54.169.249.3:8080/addFinished", {
         json: {
           stationNo: this.name,
           quantity: this.qty
         }
       });
-      console.dir(res);
       this.$socket.client.emit("addToStationNo", this.name);
+      this.name = null;
+      this.qty = 1;
       this.$notify({
         group: "submitReq",
         type: "my-success",
