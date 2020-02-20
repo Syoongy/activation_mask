@@ -65,19 +65,18 @@ export default {
       //submit to api here
       //Python api
       const res = await ky.get(
-        `http://supplypacking.pythonanywhere.com/add/s-${this.qty}/`
+        `http://supplypacking.pythonanywhere.com/add/s=${this.qty}/`
       );
       //Node api
-      await ky.post(
-        "http://ec2-54-255-139-44.ap-southeast-1.compute.amazonaws.com:8080/shipped",
-        {
-          json: {
-            numBoxes: this.qty,
-            deliveryLocationId: this.deliveryId
-          }
+      await ky.post("http://54.169.249.3:8080/shipped", {
+        json: {
+          numBoxes: this.qty,
+          deliveryLocationId: this.deliveryId
         }
-      );
-      console.dir(res);
+      });
+      this.$socket.client.emit("addToShipped");
+      this.qty = 0;
+      this.deliveryId = 0;
       this.$notify({
         group: "submitReq",
         type: "my-success",
