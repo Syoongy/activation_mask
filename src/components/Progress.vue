@@ -56,53 +56,61 @@ c0.59-0.63,1.38-0.94,2.37-0.94h20.33c0.9,0,1.67,0.31,2.3,0.94C474.56,2.91,474.88
  c0-0.98,0.29-1.77,0.88-2.35c0.59-0.58,1.38-0.87,2.37-0.87h20.33c0.9,0,1.67,0.29,2.3,0.87c0.63,0.58,0.95,1.37,0.95,2.35v18.54
  c0,0.9-0.32,1.66-0.95,2.28C715.82,99.37,715.05,99.68,714.15,99.68z"
     ></div>
+    <TotalCount :boxTarget="boxTarget" :boxCompleted="boxCompleted" />
   </div>
 </template>
 
 <script>
-// import ldBar from "@/assets/loading-bar.js";
+import TotalCount from "./TotalCount";
 import ldBar from "@loadingio/loading-bar";
+import ky from "ky";
 export default {
+  components: {
+    TotalCount
+  },
+  sockets: {
+    totalFinishedValues(val) {
+      this.boxCompleted = val.totalQuantity;
+      this.bar.set(this.progress);
+    }
+  },
+  computed: {
+    progress() {
+      return (this.boxCompleted / this.boxTarget) * 100;
+    }
+  },
   data() {
     return {
-      progress: 0,
       bar: null,
-      interval: null
+      boxTarget: 756,
+      boxCompleted: 0
     };
   },
-  mounted() {
+  async mounted() {
+    const res = await ky
+      .get("http://54.169.249.3:8080/getTotalFinished")
+      .json();
+    this.boxCompleted = res.totalQuantity;
     /* construct manually */
     this.bar = new ldBar("#progressBar", {
       type: "fill",
       "fill-dir": "ltr",
-      fill: "#a3f7bf",
-      "fill-background": "#393e46",
+      fill: "#23d160",
+      "fill-background": "#F4F4F4",
       "fill-background-extrude": 0,
       "transition-in": 1
     });
-    console.log(this.bar);
-    this.interval = window.setInterval(this.increase, 2000);
+    this.bar.set(this.progress);
   },
-  beforeDestroy() {
-    if (this.interval !== null) window.clearInterval(this.interval);
-  },
-  methods: {
-    increase() {
-      if (this.progress < 100) {
-        this.progress += 10;
-        this.bar.set(this.progress);
-      } else {
-        window.clearInterval(this.interval);
-      }
-    }
-  }
+  methods: {}
 };
 </script>
 
 <style>
 #progressbar-container {
-  background-color: #393e46;
+  flex-direction: column;
   border-radius: 5px;
+  background: #fff;
   padding: 1rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
