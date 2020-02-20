@@ -1,6 +1,6 @@
 <template>
   <div id="leaderboard-container">
-    <p class="title has-text-centered has-text-white">LEADERBOARD</p>
+    <p class="title has-text-centered">LEADERBOARD</p>
     <div id="tile-container" class="is-flex is-centered-flex">
       <transition-group id="transition-styling" name="leaderboard-list">
         <LeaderboardTile
@@ -12,13 +12,12 @@
         />
       </transition-group>
     </div>
-
-    <button class="button" @click="addToGroupOne">Add</button>
   </div>
 </template>
 
 <script>
 import LeaderboardTile from "./LeaderboardTile";
+import prevStationValList from "@/assets/prevCount.json";
 export default {
   props: {
     stations: {
@@ -31,19 +30,23 @@ export default {
   },
   computed: {
     sortedStations() {
-      const listToSort = this.stations;
+      const listToSort = this.computedStations;
       listToSort.sort((a, b) => {
         if (a.quantity > b.quantity) return -1;
         else if (a.quantity < b.quantity) return 1;
         else return 0;
       });
       return listToSort;
-    }
-  },
-  methods: {
-    addToGroupOne() {
-      const groupOne = this.stations.find(element => element.stationNo === "1");
-      groupOne.quantity += 10;
+    },
+    computedStations() {
+      const retStations = this.stations;
+      for (const station of retStations) {
+        const prevStationItem = prevStationValList.prevStationList.find(
+          prevStation => prevStation.stationNo === station.stationNo
+        );
+        station.quantity -= prevStationItem.quantity;
+      }
+      return retStations;
     }
   }
 };
@@ -51,8 +54,8 @@ export default {
 
 <style>
 #leaderboard-container {
+  background: #fff;
   margin-top: 1rem;
-  background-color: #393e46;
   border-radius: 5px;
   padding: 1rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
