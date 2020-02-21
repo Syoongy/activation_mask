@@ -16,7 +16,7 @@
 
 <script>
 import LeaderboardTile from "./LeaderboardTile";
-import prevStationValList from "@/assets/prevCount.json";
+// import prevStationValList from "@/assets/prevCount.json";
 export default {
   props: {
     stations: {
@@ -29,24 +29,24 @@ export default {
   },
   computed: {
     sortedStations() {
-      const listToSort = this.computedStations;
+      const listToSort = this.stations;
       listToSort.sort((a, b) => {
         if (a.quantity > b.quantity) return -1;
         else if (a.quantity < b.quantity) return 1;
         else return 0;
       });
       return listToSort;
-    },
-    computedStations() {
-      const retStations = this.stations;
-      for (const station of retStations) {
-        const prevStationItem = prevStationValList.prevStationList.find(
-          prevStation => prevStation.stationNo === station.stationNo
-        );
-        station.quantity -= prevStationItem.quantity;
-      }
-      return retStations;
     }
+    // computedStations() {
+    //   const retStations = this.stations;
+    //   for (const station of retStations) {
+    //     const prevStationItem = prevStationValList.prevStationList.find(
+    //       prevStation => prevStation.stationNo === station.stationNo
+    //     );
+    //     station.quantity -= prevStationItem.quantity;
+    //   }
+    //   return retStations;
+    // }
   }
 };
 </script>
