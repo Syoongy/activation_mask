@@ -2,16 +2,22 @@
   <div class="section">
     <div class="container">
       <div class="columns">
+        <div class="box column"></div>
         <div
           class="box column"
-          :class="classObject(alpha)"
+          :class="classObject(alpha.letter)"
           v-for="(alpha, idx) in alphaList"
           :key="idx"
         >
           <p
             class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
           >
-            {{ alpha }}
+            {{ alpha.letter }}
+          </p>
+          <p
+            class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
+          >
+            {{ alpha.total }}
           </p>
         </div>
       </div>
@@ -39,7 +45,7 @@ export default {
   data() {
     return {
       stations: [],
-      alphaList: ["", "A", "B", "C", "D", "E", "F"]
+      alphaList: ["A", "B", "C", "D", "E", "F"]
     };
   },
   async mounted() {
@@ -47,16 +53,15 @@ export default {
     const currShift = getCurrentShift();
     // const currShift = "1";
     const currShiftList = this.getCurrShiftList(res, currShift);
-    const alphaList = ["A", "B", "C", "D", "E", "F"];
     const numList = ["1", "2", "3", "4", "5", "6", "7"];
     const numberList = [];
     numList.forEach(ele =>
       numberList.push({ stationName: ele, isStation: false })
     );
     this.stations.push(numberList);
-    for (let i = 0; i < alphaList.length; i++) {
+    for (let i = 0; i < this.alphaList.length; i++) {
       const listToBePushed = [];
-      const letter = alphaList[i];
+      const letter = this.alphaList[i];
       for (let w = 0; w < numList.length; w++) {
         const num = numList[w];
         let qty = 0;
@@ -66,6 +71,7 @@ export default {
         if (foundShift) {
           qty = foundShift.quantity;
         }
+        this.alphaList[i].total += qty;
         listToBePushed.push({
           letter: letter,
           num: num,
