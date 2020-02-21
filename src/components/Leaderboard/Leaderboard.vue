@@ -1,6 +1,5 @@
 <template>
   <div id="leaderboard-container">
-    <p class="title has-text-centered">LEADERBOARD</p>
     <div id="tile-container" class="is-flex is-centered-flex">
       <transition-group id="transition-styling" name="leaderboard-list">
         <LeaderboardTile
@@ -54,7 +53,7 @@ export default {
 
 <style>
 #leaderboard-container {
-  background: #fff;
+  background: #424242;
   margin-top: 1rem;
   border-radius: 5px;
   padding: 1rem;
@@ -66,7 +65,7 @@ export default {
 }
 
 #transition-styling {
-  width: 60%;
+  width: 80%;
 }
 
 .leaderboard-tile {
