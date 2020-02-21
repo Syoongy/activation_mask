@@ -64,16 +64,18 @@ export default {
     async submitForm() {
       //submit to api here
       //Python api
-      const res = await ky.get(
+      await ky.get(
         `http://supplypacking.pythonanywhere.com/add/s=${this.qty}/`
       );
       //Node api
-      await ky.post("http://54.169.249.3:8080/shipped", {
-        json: {
-          numBoxes: this.qty,
-          deliveryLocationId: this.deliveryId
-        }
-      });
+      const res = await ky
+        .post("http://54.169.249.3:8080/shipped", {
+          json: {
+            numBoxes: this.qty,
+            deliveryLocationId: this.deliveryId
+          }
+        })
+        .json();
       this.$socket.client.emit("addToShipped");
       this.qty = 0;
       this.deliveryId = 0;
@@ -81,7 +83,7 @@ export default {
         group: "submitReq",
         type: "my-success",
         title: "Success!",
-        text: "Input has been submitted!",
+        text: `The ID is ${res[0].uniqueId}`,
         duration: 1000,
         max: 1
       });
