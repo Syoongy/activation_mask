@@ -2,6 +2,23 @@
   <div class="section">
     <div class="container">
       <div class="columns">
+        <div class="column is-1"></div>
+        <div class="box column wolf">
+          <p
+            class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
+          >
+            WOLVES
+          </p>
+        </div>
+        <div class="box column bear">
+          <p
+            class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
+          >
+            BEARS
+          </p>
+        </div>
+      </div>
+      <div class="columns">
         <div
           class="box column"
           :class="classObject(alpha)"
@@ -39,7 +56,7 @@ export default {
   data() {
     return {
       stations: [],
-      alphaList: ["", "A", "B", "C", "D", "E", "F"]
+      alphaList: ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     };
   },
   async mounted() {
@@ -47,8 +64,8 @@ export default {
     const currShift = getCurrentShift();
     // const currShift = "1";
     const currShiftList = this.getCurrShiftList(res, currShift);
-    const alphaList = ["A", "B", "C", "D", "E", "F"];
-    const numList = ["1", "2", "3", "4", "5", "6", "7"];
+    const alphaList = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+    const numList = ["1", "2", "3", "4", "5"];
     const numberList = [];
     numList.forEach(ele =>
       numberList.push({ stationName: ele, isStation: false })
@@ -88,25 +105,34 @@ export default {
       let styling = "";
       switch (letter) {
         case "A":
-          styling = "has-background-a";
+          styling = "wolf";
           break;
         case "B":
-          styling = "has-background-b";
+          styling = "wolf-alternate";
           break;
         case "C":
-          styling = "has-background-c";
+          styling = "wolf";
           break;
         case "D":
-          styling = "has-background-d";
+          styling = "wolf-alternate";
           break;
         case "E":
-          styling = "has-background-danger";
+          styling = "wolf";
           break;
         case "F":
-          styling = "has-background-black has-text-white";
+          styling = "bear";
           break;
         case "G":
-          styling = "has-background-success";
+          styling = "bear-alternate";
+          break;
+        case "H":
+          styling = "bear";
+          break;
+        case "I":
+          styling = "bear-alternate";
+          break;
+        case "J":
+          styling = "bear";
           break;
         default:
           break;
@@ -140,19 +166,19 @@ export default {
   margin: 0 0.2rem 0.75rem;
 }
 
-.has-background-a {
-  background-color: #12005e !important;
+.wolf {
+  background-color: #002f6c !important;
 }
 
-.has-background-b {
-  background-color: #003d00 !important;
+.wolf-alternate {
+  background-color: #01579b !important;
 }
 
-.has-background-c {
-  background-color: #002171 !important;
+.bear {
+  background-color: #b71c1c !important;
 }
 
-.has-background-d {
-  background-color: #ac1900 !important;
+.bear-alternate {
+  background-color: #f05545 !important;
 }
 </style>
