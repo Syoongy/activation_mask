@@ -110,7 +110,7 @@ export default {
 #progressbar-container {
   flex-direction: column;
   border-radius: 5px;
-  background: #fff;
+  background: #424242;
   padding: 1rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }

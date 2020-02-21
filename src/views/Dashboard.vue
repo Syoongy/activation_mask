@@ -72,8 +72,8 @@ export default {
   }
 };
 </script>
-<style>
-html {
-  background-color: #f4f4f4;
+<style scoped>
+.section {
+  background-color: #212121 !important;
 }
 </style>
