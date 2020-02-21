@@ -2,7 +2,7 @@
   <div class="section">
     <div class="container">
       <div class="columns">
-        <div class="box column"></div>
+        <div class="column"></div>
         <div
           class="box column"
           :class="classObject(alpha.letter)"
@@ -45,7 +45,14 @@ export default {
   data() {
     return {
       stations: [],
-      alphaList: ["A", "B", "C", "D", "E", "F"]
+      alphaList: [
+        { letter: "A", total: 0 },
+        { letter: "D", total: 0 },
+        { letter: "C", total: 0 },
+        { letter: "B", total: 0 },
+        { letter: "E", total: 0 },
+        { letter: "F", total: 0 }
+      ]
     };
   },
   async mounted() {
@@ -61,7 +68,7 @@ export default {
     this.stations.push(numberList);
     for (let i = 0; i < this.alphaList.length; i++) {
       const listToBePushed = [];
-      const letter = this.alphaList[i];
+      const letter = this.alphaList[i].letter;
       for (let w = 0; w < numList.length; w++) {
         const num = numList[w];
         let qty = 0;
