@@ -65,10 +65,27 @@
         <button
           class="button is-success is-fullwidth"
           :disabled="!canSubmit"
-          @click="submitForm"
+          @click="toggleModal"
         >
           Submit
         </button>
+      </div>
+    </div>
+    <div class="modal" :class="{ 'is-active': modalIsActive }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Submit</p>
+        </header>
+        <section class="modal-card-body">
+          <p class="title">Submission for</p>
+          <p class="has-text-weight-bold is-size-4">Masks: {{ mask }}</p>
+          <p class="has-text-weight-bold is-size-4">Ziplocs: {{ ziploc }}</p>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-danger" @click="toggleModal">Cancel</button>
+          <button class="button is-success" @click="submitForm">Confirm</button>
+        </footer>
       </div>
     </div>
   </div>
@@ -120,11 +137,16 @@ export default {
       isMaskCorrect: true,
       isThermometerCorrect: true,
       isSanitiserCorrect: true,
-      isZiplocCorrect: true
+      isZiplocCorrect: true,
+      modalIsActive: false
     };
   },
   methods: {
+    toggleModal() {
+      this.modalIsActive = !this.modalIsActive;
+    },
     async submitForm() {
+      this.toggleModal;
       //submit to api here
       const dataString = encodeURI(
         `m=${this.mask}&t=${this.thermometer}&h=${this.sanitiser}&z=${this.ziploc}`

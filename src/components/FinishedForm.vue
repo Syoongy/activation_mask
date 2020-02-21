@@ -51,10 +51,28 @@
           class="button is-fullwidth"
           :class="{ 'is-success': canSubmit, 'is-danger': !canSubmit }"
           :disabled="!canSubmit"
-          @click="submitForm"
+          @click="toggleModal"
         >
           Submit
         </button>
+      </div>
+    </div>
+    <div class="modal" :class="{ 'is-active': modalIsActive }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Submit</p>
+        </header>
+        <section class="modal-card-body">
+          <p class="title">Submission for</p>
+          <p class="has-text-weight-bold is-size-4">
+            {{ name }}
+          </p>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-danger" @click="toggleModal">Cancel</button>
+          <button class="button is-success" @click="submitForm">Confirm</button>
+        </footer>
       </div>
     </div>
   </div>
@@ -80,14 +98,16 @@ export default {
       session: "1",
       qty: 1,
       isNameCorrect: true,
-      isQtyCorrect: true
+      isQtyCorrect: true,
+      modalIsActive: false
     };
   },
   methods: {
-    goToForm() {
-      this.$router.push({ path: `/about/${this.name}` });
+    toggleModal() {
+      this.modalIsActive = !this.modalIsActive;
     },
     async submitForm() {
+      this.toggleModal();
       //submit to api here
       //Python api
       await ky.get(
