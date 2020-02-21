@@ -12,6 +12,7 @@
           step="1"
           min="0"
         />
+        <p class="subtitle">{{ maskInWords }}</p>
       </div>
     </div>
     <div class="field">
@@ -26,6 +27,7 @@
           step="1"
           min="0"
         />
+        <p class="subtitle">{{ thermometerInWords }}</p>
       </div>
     </div>
     <div class="field">
@@ -40,6 +42,7 @@
           step="1"
           min="0"
         />
+        <p class="subtitle">{{ sanitiserInWords }}</p>
       </div>
     </div>
     <div class="field">
@@ -54,6 +57,7 @@
           step="1"
           min="0"
         />
+        <p class="subtitle">{{ ziplocInWords }}</p>
       </div>
     </div>
     <div class="field">
@@ -71,17 +75,40 @@
 </template>
 
 <script>
+import converter from "number-to-words";
 import ky from "ky";
 export default {
   name: "ReceivedForm",
   computed: {
     canSubmit() {
+      this.validateZiploc();
       return (
         this.isMaskCorrect &&
         this.isThermometerCorrect &&
         this.isSanitiserCorrect &&
         this.isZiplocCorrect
       );
+    },
+    maskInWords() {
+      let retString = "error";
+      if (this.mask !== "") retString = converter.toWords(this.mask);
+      return retString;
+    },
+    thermometerInWords() {
+      let retString = "error";
+      if (this.thermometer !== "")
+        retString = converter.toWords(this.thermometer);
+      return retString;
+    },
+    sanitiserInWords() {
+      let retString = "error";
+      if (this.sanitiser !== "") retString = converter.toWords(this.sanitiser);
+      return retString;
+    },
+    ziplocInWords() {
+      let retString = "error";
+      if (this.ziploc !== "") retString = converter.toWords(this.ziploc);
+      return retString;
     }
   },
   data() {
@@ -130,13 +157,13 @@ export default {
       });
     },
     isGreaterThanEqualToZero(value) {
-      return parseInt(value) >= 0;
+      const parsedValue = parseInt(value);
+      return parsedValue >= 0 && parsedValue <= 10000000;
     },
     validateThermometer() {
       this.isThermometerCorrect = this.isGreaterThanEqualToZero(
         this.thermometer
       );
-      console.log(this.isGreaterThanEqualToZero(this.thermometer));
     },
     validateMask() {
       this.isMaskCorrect = this.isGreaterThanEqualToZero(this.mask);
