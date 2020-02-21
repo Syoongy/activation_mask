@@ -11,6 +11,7 @@
 // @ is an alias to /src
 import Progress from "@/components/Progress";
 import Leaderboard from "@/components/Leaderboard/Leaderboard";
+import getCurrentShift from "@/plugins/getCurrentShift";
 import ky from "ky";
 
 export default {
@@ -21,7 +22,9 @@ export default {
   },
   sockets: {
     updatedStationQty(val) {
-      this.updateStationList(val);
+      const currShift = getCurrentShift();
+      const currList = this.getCurrShiftList(val, currShift);
+      this.updateStationList(currList);
     }
   },
   data() {
@@ -30,9 +33,9 @@ export default {
     };
   },
   async mounted() {
-    this.stationList = await ky
-      .get("http://54.169.249.3:8080/getFinished")
-      .json();
+    const res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    const currShift = getCurrentShift();
+    this.stationList = this.getCurrShiftList(res, currShift);
     // this.stationList = [
     //   { stationNo: "1", quantity: 10 },
     //   { stationNo: "2", quantity: 20 },
@@ -68,6 +71,19 @@ export default {
           station.quantity = val.qty;
         }
       }
+    },
+    getCurrShiftList(allFinished, currShift) {
+      const retList = [];
+      for (const shiftItem of allFinished) {
+        const stationNameSplit = shiftItem.stationNo.split("-");
+        const isCurrShift = stationNameSplit[0] === currShift;
+        if (isCurrShift)
+          retList.push({
+            stationNo: stationNameSplit[1],
+            quantity: shiftItem.quantity
+          });
+      }
+      return retList;
     }
   }
 };

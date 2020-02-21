@@ -22,11 +22,68 @@
 
 <script>
 import Board from "@/components/Scoreboard/Board";
+import getCurrentShift from "@/plugins/getCurrentShift";
+import ky from "ky";
 export default {
   components: {
     Board
   },
+  sockets: {
+    updatedStationQty(val) {
+      console.log(val);
+      const currShift = getCurrentShift();
+      const currList = this.getCurrShiftList(val, currShift);
+      this.updateStationList(currList);
+    }
+  },
+  data() {
+    return {
+      stations: [],
+      alphaList: ["", "A", "B", "C", "D", "E", "F"]
+    };
+  },
+  async mounted() {
+    const res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    const currShift = getCurrentShift();
+    // const currShift = "1";
+    const currShiftList = this.getCurrShiftList(res, currShift);
+    const alphaList = ["A", "B", "C", "D", "E", "F"];
+    const numList = ["1", "2", "3", "4", "5", "6", "7"];
+    const numberList = [];
+    numList.forEach(ele =>
+      numberList.push({ stationName: ele, isStation: false })
+    );
+    this.stations.push(numberList);
+    for (let i = 0; i < alphaList.length; i++) {
+      const listToBePushed = [];
+      const letter = alphaList[i];
+      for (let w = 0; w < numList.length; w++) {
+        const num = numList[w];
+        let qty = 0;
+        const foundShift = currShiftList.find(
+          ele => ele.stationNo[0] === letter && ele.stationNo[1] === num
+        );
+        if (foundShift) {
+          qty = foundShift.quantity;
+        }
+        listToBePushed.push({
+          letter: letter,
+          num: num,
+          quantity: qty,
+          isStation: true
+        });
+      }
+      this.stations.push(listToBePushed);
+    }
+  },
   methods: {
+    updateStationList(val) {
+      for (const station of this.stations) {
+        if (station.stationNo === val.id) {
+          station.quantity = val.qty;
+        }
+      }
+    },
     classObject(letter) {
       let styling = "";
       switch (letter) {
@@ -55,35 +112,19 @@ export default {
           break;
       }
       return styling;
-    }
-  },
-  data() {
-    return {
-      stations: [],
-      alphaList: ["", "A", "B", "C", "D", "E", "F"]
-    };
-  },
-  mounted() {
-    const alphaList = ["A", "B", "C", "D", "E", "F"];
-    const numList = ["1", "2", "3", "4", "5", "6", "7"];
-    const numberList = [];
-    numList.forEach(ele =>
-      numberList.push({ stationName: ele, isStation: false })
-    );
-    this.stations.push(numberList);
-    for (let i = 0; i < alphaList.length; i++) {
-      const listToBePushed = [];
-      const letter = alphaList[i];
-      for (let w = 0; w < numList.length; w++) {
-        const num = numList[w];
-        listToBePushed.push({
-          letter: letter,
-          num: num,
-          quantity: 0,
-          isStation: true
-        });
+    },
+    getCurrShiftList(allFinished, currShift) {
+      const retList = [];
+      for (const shiftItem of allFinished) {
+        const stationNameSplit = shiftItem.stationNo.split("-");
+        const isCurrShift = stationNameSplit[0] === currShift;
+        if (isCurrShift)
+          retList.push({
+            stationNo: stationNameSplit[1],
+            quantity: shiftItem.quantity
+          });
       }
-      this.stations.push(listToBePushed);
+      return retList;
     }
   }
 };
