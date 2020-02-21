@@ -15,7 +15,7 @@
         <p class="subtitle">{{ maskInWords }}</p>
       </div>
     </div>
-    <div class="field">
+    <!-- <div class="field">
       <label class="label">Thermometers</label>
       <div class="control">
         <input
@@ -44,7 +44,7 @@
         />
         <p class="subtitle">{{ sanitiserInWords }}</p>
       </div>
-    </div>
+    </div> -->
     <div class="field">
       <label class="label">Ziplocs</label>
       <div class="control">
