@@ -1,8 +1,9 @@
 <template>
   <section id="quantity-section">
     <div class="is-flex" id="quantity-container">
-      <div class="box has-background-black-ter box-spacing">
+      <div class="box has-background-black-ter box-spacing columns">
         <Quantity
+          class="column"
           title="Received"
           :masks="receivedItems.mask"
           :thermometers="receivedItems.thermometer"
@@ -10,6 +11,7 @@
           :ziplocs="receivedItems.ziploc"
         ></Quantity>
         <Quantity
+          class="column"
           title="Remaining"
           :masks="remainingItems.mask"
           :thermometers="remainingItems.thermometer"
@@ -95,12 +97,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .box:not(:last-child) {
   margin-bottom: 0;
 }
 
 #quantity-section {
+  background-color: #212121 !important;
   width: 100vw;
   min-height: 100vh;
   overflow: hidden;
@@ -115,6 +118,6 @@ export default {
 
 .box-spacing {
   margin-bottom: 1rem !important;
-  width: 80%;
+  width: 100%;
 }
 </style>
