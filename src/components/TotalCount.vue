@@ -1,6 +1,6 @@
 <template>
   <div id="count-container">
-    <p class="has-text-weight-bold is-size-2">
+    <p class="has-text-weight-bold is-size-1 has-text-white">
       {{ boxCompleted }} / {{ boxTarget }}
     </p>
   </div>
@@ -26,6 +26,6 @@ export default {
 
 <style scoped>
 #count-container {
-  margin: 2rem;
+  margin: 1rem;
 }
 </style>
