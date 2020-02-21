@@ -1,10 +1,8 @@
 <template>
-  <div id="board">
-    <Tile
-      v-for="station in station"
-      :key="station.stationNo"
-      :station="station"
-    />
+  <div class="columns" id="board">
+    <div class="column" v-for="(section, idx) in stations" :key="idx">
+      <Tile v-for="(station, ids) in section" :key="ids" :station="station" />
+    </div>
   </div>
 </template>
 
@@ -23,4 +21,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.column {
+  padding: 0.4rem;
+}
+</style>
