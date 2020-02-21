@@ -92,9 +92,8 @@ export default {
       let opStartHour = 8;
       let opStartMinute = 0;
 
-      // let currentDate = this.currentDateObj.getDate();
-      let currentDate = 24;
-      let currentHour = this.currentDateObj.getHours() + 8;
+      let currentDate = this.currentDateObj.getDate();
+      let currentHour = this.currentDateObj.getHours();
       let currentMinute = this.currentDateObj.getMinutes();
       let currentSecond = this.currentDateObj.getSeconds();
 
