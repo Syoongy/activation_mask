@@ -1,11 +1,13 @@
 <template>
-  <div class="leaderboard-tile">
+  <div class="leaderboard-tile has-text-white" :class="classObject">
     <div class="content columns">
-      <p class="column is-size-4 is-3 has-text-weight-bold">No. {{ rank }}</p>
-      <p class="column is-size-4 is-6 has-text-weight-bold">
+      <div class="column is-size-1 is-3 has-text-weight-bold">
+        <p style="display: inline-block !important;">No. {{ rank }}</p>
+      </div>
+      <p class="column is-size-1 is-6 has-text-weight-bold">
         Station {{ name }}
       </p>
-      <p class="column is-size-4 has-text-weight-bold">{{ qty }}/18</p>
+      <p class="column is-size-1 has-text-weight-bold">{{ qty }}/18</p>
     </div>
   </div>
 </template>
@@ -24,6 +26,13 @@ export default {
     qty: {
       type: Number,
       required: true
+    }
+  },
+  methods: {
+    classObject() {
+      // let styling = "";
+      // if()
+      // return styling;
     }
   }
 };
