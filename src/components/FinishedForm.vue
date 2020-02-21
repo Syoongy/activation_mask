@@ -3,8 +3,8 @@
     <div class="field">
       <label class="label">Session</label>
       <div class="field">
-        <div class="control">
-          <div class="select">
+        <div class="control is-expanded">
+          <div class="select is-fullwidth">
             <select name="session" v-model="session">
               <option value="1">1</option>
               <option value="2">2</option>
@@ -69,7 +69,7 @@ export default {
       return this.qty >= 1 && this.qty <= 50;
     },
     name() {
-      const name = this.session + this.sAlpha + this.sNum;
+      const name = `${this.session}-${this.sAlpha}${this.sNum}`;
       return name;
     }
   },
@@ -77,7 +77,7 @@ export default {
     return {
       sAlpha: "A",
       sNum: "1",
-      session: "",
+      session: "1",
       qty: 1,
       isNameCorrect: true,
       isQtyCorrect: true
@@ -103,13 +103,15 @@ export default {
         })
         .json();
       this.$socket.client.emit("addToStationNo", this.name);
-      this.name = null;
+      this.sAlpha = "A";
+      this.sNum = "1";
+      this.session = "1";
       this.qty = 1;
       this.$notify({
         group: "submitReq",
         type: "my-success",
         title: "Success!",
-        text: `The ID is ${res.uniqueId}`,
+        text: `The ID is ${res[0].uniqueId}`,
         duration: -1000,
         max: 1
       });
@@ -123,6 +125,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
