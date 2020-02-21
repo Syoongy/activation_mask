@@ -6,7 +6,7 @@
     <div
       class="column box has-background-black-ter has-text-centered has-text-warning"
     >
-      <p class="has-text-weight-bold is-size-3">Storage</p>
+      <p class="has-text-weight-bold is-size-3">Shipped</p>
       <p class="is-size-4">{{ shipped }}</p>
     </div>
     <!-- <div
@@ -50,7 +50,7 @@ export default {
 
 <style>
 #tracking-container {
-  margin: 1rem !important;
+  margin: auto;
 }
 #tracking-container .box.column {
   margin: 0.75rem !important;
