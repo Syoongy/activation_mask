@@ -26,17 +26,6 @@
           :finished="finishedBoxes"
         />
       </div>
-      <div class="box has-background-black-ter box-spacing">
-        <RequirementDelta
-          :delta="currentRequirement.delta"
-        />
-      </div>
-      <div class="box has-background-black-ter box-spacing">
-        <CurrentRequirement
-          :finishedPacks="currentRequirement.finishedPacks"
-          :currentRequiredPacks="currentRequirement.currentRequiredPacks"
-        />
-      </div>
     </div>
   </section>
 </template>
@@ -44,16 +33,12 @@
 <script>
 import Quantity from "@/components/Statistics/Quantity";
 import ProductTracking from "@/components/Statistics/ProductTracking";
-import CurrentRequirement from "@/components/Statistics/CurrentRequirement";
-import RequirementDelta from "@/components/Statistics/RequirementDelta";
 import ky from "ky";
 
 export default {
   components: {
     Quantity,
-    ProductTracking,
-    CurrentRequirement,
-    RequirementDelta
+    ProductTracking
   },
   sockets: {
     receivedValues(val) {
@@ -81,77 +66,10 @@ export default {
         retObj.sanitiser - this.finishedBoxes * this.boxSanitiser;
       retObj.ziploc = retObj.ziploc - this.finishedBoxes * this.boxZiploc;
       return retObj;
-    },
-    currentRequirement() {
-
-      let finishedPacks = this.finishedBoxes * this.packsPerBox;
-
-      let elapsedHours = 0.0;
-
-      let opStartDate = 24;
-      let opStartHour = 8;
-      let opStartMinute = 0;
-
-      let currentDate = this.currentDateObj.getDate();
-      let currentHour = this.currentDateObj.getHours();
-      let currentMinute = this.currentDateObj.getMinutes();
-      let currentSecond = this.currentDateObj.getSeconds();
-
-      // let currentDate = 24;
-      // let currentHour = 9;
-      // let currentMinute = 30;
-      // let currentSecond = this.currentDateObj.getSeconds();
-
-      let numHoursInCompletedDays = 0.0;
-      let numHoursInCompletedHours = 0.0;
-      let numHoursInCompletedMinutes = 0.0;
-      let numHoursInCompletedSeconds = 0.0;
-
-      if (currentDate >= opStartDate) {
-        let numHoursInCompletedDays = (currentDate - opStartDate) * this.workHoursPerDay;
-        if (currentHour >= opStartHour) {
-          if (currentHour < 8 ) {
-            numHoursInCompletedHours = 0;
-          }
-          else if (currentHour <= 15) {
-            numHoursInCompletedHours = currentHour - 8;
-
-            numHoursInCompletedMinutes = currentMinute / 60;
-            numHoursInCompletedSeconds = currentSecond / 3600;
-          }
-          else if (currentHour <= 22) {
-            // Account for the 1 hour break
-            numHoursInCompletedHours = currentHour - 8 - 1;
-
-            numHoursInCompletedMinutes = currentMinute / 60;
-            numHoursInCompletedSeconds = currentSecond / 3600;
-          }
-          else {
-            numHoursInCompletedHours = 13;
-          }
-        }
-      }
-
-      elapsedHours = numHoursInCompletedDays + numHoursInCompletedHours + numHoursInCompletedMinutes + numHoursInCompletedSeconds;
-
-      let currentRequiredPacks = Math.round(elapsedHours * this.targetBoxesPerHour)
-
-      let delta = finishedPacks - currentRequiredPacks;
-
-
-      //
-      return {finishedPacks: finishedPacks, currentRequiredPacks: currentRequiredPacks, delta: delta};
-      // return this.currentDateObj.getSeconds();
-      // return 0;
-
-
     }
   },
   data() {
     return {
-      packsPerBox: 200,
-      targetBoxesPerHour: 21840,
-      workHoursPerDay: 13,
       receivedItems: { mask: 0, thermometer: 0, sanitiser: 0, ziploc: 0 },
       finishedBoxes: 0,
       boxMask: 1600,
@@ -159,9 +77,7 @@ export default {
       boxSanitiser: 0,
       boxZiploc: 400,
       shipped: 0,
-      delivered: 0,
-      currentDateObj: new Date(),
-      myInterval: null,
+      delivered: 0
     };
   },
   async mounted() {
@@ -177,29 +93,7 @@ export default {
     }
     res = await ky.get("http://54.169.249.3:8080/totalShipped").json();
     this.shipped = res[0].totalBoxes;
-    this.shipped = 1000;
-    // this.myInterval = setInterval(function(){this.shipped = 2000}, 1000);
-    this.myInterval = setInterval(() => {
-      this.currentDateObj = new Date();
-      console.log(this.currentDateObj)
-      // console.dir(this.shipped);
-    }, 1000);
-    // console.log(this.d);
-    // setInterval(function(){
-    //     // this.d = new Date();
-    //     console.log(this.d)
-    //     // this.d += 1;
-    // }, 1000);
-  },
-
-  // created() {
-  //   setInterval(function(){
-  //       // this.d = new Date();
-  //       console.log(this.d)
-  //       this.d += 1;
-  //   }, 1000);
-  // }
-
+  }
 };
 </script>
 
