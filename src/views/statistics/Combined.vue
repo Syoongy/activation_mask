@@ -2,11 +2,11 @@
   <section id="quantity-section">
     <div class="is-flex" id="quantity-container">
       <div class="box has-background-black-ter box-spacing">
-        <RequirementDelta title="Delta (Combined)" :delta="currentRequirement.delta+currentRequirement.delta" :finishedPacks="currentRequirement.finishedPacks+currentRequirement.finishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks+currentRequirement.currentRequiredPacks"/>
+        <RequirementDelta title="Delta (Combined)" :delta="currentRequirement.delta+currentRequirement.saftiDelta" :finishedPacks="currentRequirement.finishedPacks+currentRequirement.saftiFinishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks+currentRequirement.currentRequiredPacks"/>
       </div>
       <div class="box has-background-black-ter box-spacing columns">
         <RequirementDelta title="Delta (PLC)" :delta="currentRequirement.delta" :finishedPacks="currentRequirement.finishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
-        <RequirementDelta title="Delta (SAFTI)" :delta="currentRequirement.delta" :finishedPacks="currentRequirement.finishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
+        <RequirementDelta title="Delta (SAFTI)" :delta="currentRequirement.saftiDelta" :finishedPacks="currentRequirement.saftiFinishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
       </div>
 
       <div class="box has-background-black-ter box-spacing columns">
@@ -92,8 +92,8 @@ export default {
       return retObj;
     },
     remainingMaterialTime() {
-      let maskRemainingTime = this.remainingItems.mask / (this.targetBoxesPerHour * 4);
-      let ziplocRemainingTime = this.remainingItems.ziploc / (this.targetBoxesPerHour);
+      let maskRemainingTime = this.remainingItems.mask / (this.targetPacksPerHour * 4);
+      let ziplocRemainingTime = this.remainingItems.ziploc / (this.targetPacksPerHour);
       let saftiMaskRemainingTime = 0.0;
       let saftiZiplocRemainingTime = 0.0;
 
@@ -107,6 +107,7 @@ export default {
     },
     currentRequirement() {
       const finishedPacks = this.finishedBoxes * this.packsPerBox;
+      const saftiFinishedPacks = this.saftiFinishedBoxes * this.packsPerBox;
 
       let elapsedHours = 0.0,
         numHoursInCompletedDays = 0.0,
@@ -152,16 +153,19 @@ export default {
         numHoursInCompletedSeconds;
 
       const currentRequiredPacks = Math.round(
-        elapsedHours * this.targetBoxesPerHour
+        elapsedHours * this.targetPacksPerHour
       );
 
       const delta = finishedPacks - currentRequiredPacks;
+      const saftiDelta = saftiFinishedPacks - currentRequiredPacks;
 
       //
       return {
         finishedPacks: finishedPacks,
+        saftiFinishedPacks: saftiFinishedPacks,
         currentRequiredPacks: currentRequiredPacks,
-        delta: delta
+        delta: delta,
+        saftiDelta: saftiDelta
       };
     }
   },
@@ -176,7 +180,7 @@ export default {
       shipped: 0,
       delivered: 0,
       packsPerBox: 200,
-      targetBoxesPerHour: 21840,
+      targetPacksPerHour: 21840,
       workHoursPerDay: 13,
       finishedBoxes: 0,
       saftiFinishedBoxes: 0,
@@ -212,7 +216,7 @@ export default {
 
     this.myInterval = setInterval(() => {
       this.currentDateObj = new Date();
-    }, 1000);
+    }, 900000);
   },
 
   beforeDestroy() {
