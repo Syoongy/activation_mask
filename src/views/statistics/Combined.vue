@@ -2,14 +2,42 @@
   <section id="quantity-section">
     <div class="is-flex" id="quantity-container">
       <div class="box has-background-black-ter box-spacing">
-        <RequirementDelta :delta="currentRequirement.delta" />
+        <RequirementDelta title="Delta (Combined)" :delta="currentRequirement.delta+currentRequirement.delta" :finishedPacks="currentRequirement.finishedPacks+currentRequirement.finishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks+currentRequirement.currentRequiredPacks"/>
       </div>
-      <div class="box has-background-black-ter box-spacing">
+      <div class="box has-background-black-ter box-spacing columns">
+        <RequirementDelta title="Delta (PLC)" :delta="currentRequirement.delta" :finishedPacks="currentRequirement.finishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
+        <RequirementDelta title="Delta (SAFTI)" :delta="currentRequirement.delta" :finishedPacks="currentRequirement.finishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
+      </div>
+
+      <div class="box has-background-black-ter box-spacing columns">
+        <RawMaterials
+          class="column"
+          title="Raw Materials (PLC)"
+          :masksRemaining="remainingItems.mask"
+          :masksTimeRemaining="remainingMaterialTime.mask"
+          :masksTotal="receivedItems.mask"
+          :ziplocsTimeRemaining="remainingMaterialTime.ziploc"
+          :ziplocsRemaining="remainingItems.ziploc"
+          :ziplocsTotal="receivedItems.ziploc"
+        ></RawMaterials>
+        <RawMaterials
+          class="column"
+          title="Raw Materials (SAFTI)"
+          :masksRemaining="saftiRemainingItems.mask"
+          :masksTimeRemaining="remainingMaterialTime.saftiMask"
+          :masksTotal="saftiReceivedItems.mask"
+          :ziplocsTimeRemaining="remainingMaterialTime.saftiZiploc"
+          :ziplocsRemaining="saftiRemainingItems.ziploc"
+          :ziplocsTotal="saftiReceivedItems.ziploc"
+        ></RawMaterials>
+      </div>
+
+      <!-- <div class="box has-background-black-ter box-spacing">
         <CurrentRequirement
           :finishedPacks="currentRequirement.finishedPacks"
           :currentRequiredPacks="currentRequirement.currentRequiredPacks"
         />
-      </div>
+      </div> -->
     </div>
   </section>
 </template>
@@ -17,14 +45,23 @@
 <script>
 import CurrentRequirement from "@/components/Statistics/CurrentRequirement";
 import RequirementDelta from "@/components/Statistics/RequirementDelta";
+import RawMaterials from "@/components/Statistics/RawMaterials";
+
 import ky from "ky";
 
 export default {
   components: {
-    CurrentRequirement,
-    RequirementDelta
+    RequirementDelta,
+    RawMaterials
   },
   sockets: {
+    receivedValues(val) {
+      const data = val.Item;
+      this.receivedItems.mask = data.mask;
+      this.receivedItems.thermometer = data.thermometer;
+      this.receivedItems.sanitiser = data.handSanitiser;
+      this.receivedItems.ziploc = data.ziploc;
+    },
     finishedValues(val) {
       let newFinishedBoxesValues = 0;
       for (const section of val) {
@@ -34,6 +71,40 @@ export default {
     }
   },
   computed: {
+    remainingItems() {
+      const retObj = { ...this.receivedItems };
+      retObj.mask = retObj.mask - this.finishedBoxes * this.boxMask;
+      retObj.thermometer =
+        retObj.thermometer - this.finishedBoxes * this.boxThermometer;
+      retObj.sanitiser =
+        retObj.sanitiser - this.finishedBoxes * this.boxSanitiser;
+      retObj.ziploc = retObj.ziploc - this.finishedBoxes * this.boxZiploc;
+      return retObj;
+    },
+    saftiRemainingItems() {
+      const retObj = { ...this.saftiReceivedItems };
+      retObj.mask = retObj.mask - this.saftiFinishedBoxes * this.boxMask;
+      retObj.thermometer =
+        retObj.thermometer - this.saftiFinishedBoxes * this.boxThermometer;
+      retObj.sanitiser =
+        retObj.sanitiser - this.saftiFinishedBoxes * this.boxSanitiser;
+      retObj.ziploc = retObj.ziploc - this.saftiFinishedBoxes * this.boxZiploc;
+      return retObj;
+    },
+    remainingMaterialTime() {
+      let maskRemainingTime = this.remainingItems.mask / (this.targetBoxesPerHour * 4);
+      let ziplocRemainingTime = this.remainingItems.ziploc / (this.targetBoxesPerHour);
+      let saftiMaskRemainingTime = 0.0;
+      let saftiZiplocRemainingTime = 0.0;
+
+      return {
+        mask: maskRemainingTime.toFixed(1),
+        ziploc: ziplocRemainingTime.toFixed(1),
+        saftiMask: saftiMaskRemainingTime.toFixed(1),
+        saftiZiploc: saftiZiplocRemainingTime.toFixed(1)
+      };
+
+    },
     currentRequirement() {
       const finishedPacks = this.finishedBoxes * this.packsPerBox;
 
@@ -96,23 +167,54 @@ export default {
   },
   data() {
     return {
+      receivedItems: { mask: 0, thermometer: 0, sanitiser: 0, ziploc: 0 },
+      saftiReceivedItems: { mask: 0, thermometer: 0, sanitiser: 0, ziploc: 0 },
+      boxMask: 1600,
+      boxThermometer: 0,
+      boxSanitiser: 0,
+      boxZiploc: 400,
+      shipped: 0,
+      delivered: 0,
       packsPerBox: 200,
       targetBoxesPerHour: 21840,
       workHoursPerDay: 13,
       finishedBoxes: 0,
+      saftiFinishedBoxes: 0,
       currentDateObj: new Date(),
       myInterval: null
     };
   },
+
   async mounted() {
-    const res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    let res = await ky.get("http://54.169.249.3:8080/getAllReceived").json();
+    let data = res.Item;
+    this.receivedItems.mask = data.mask;
+    this.receivedItems.thermometer = data.thermometer;
+    this.receivedItems.sanitiser = data.handSanitiser;
+    this.receivedItems.ziploc = data.ziploc;
+
+    res = await ky.get("http://54.254.221.3:8080/getAllReceived").json();
+    data = res.Item;
+    this.saftiReceivedItems.mask = data.mask;
+    this.saftiReceivedItems.thermometer = data.thermometer;
+    this.saftiReceivedItems.sanitiser = data.handSanitiser;
+    this.saftiReceivedItems.ziploc = data.ziploc;
+
+    res = await ky.get("http://54.169.249.3:8080/getFinished").json();
     for (const section of res) {
       this.finishedBoxes += section.quantity;
     }
+
+    res = await ky.get("http://54.254.221.3:8080/getFinished").json();
+    for (const section of res) {
+      this.saftiFinishedBoxes += section.quantity;
+    }
+
     this.myInterval = setInterval(() => {
       this.currentDateObj = new Date();
     }, 1000);
   },
+
   beforeDestroy() {
     this.myInterval == null;
   }

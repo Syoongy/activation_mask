@@ -6,8 +6,9 @@
     <div
       class="column box has-background-black-ter has-text-centered has-text-white"
     >
-      <p class="has-text-weight-bold is-size-1">Delta on Target</p>
+      <p class="has-text-weight-bold is-size-3">{{title}}</p>
       <p class="has-text-weight-bold is-size-1">{{ delta }}</p>
+      <p class="has-text-weight-bold is-size-5">Produced: {{ finishedPacks }} // Current Target: {{requiredPacks}} </p>
     </div>
     <!-- <div
       class="column box has-background-black-ter has-text-centered has-text-success"
@@ -27,7 +28,19 @@
 <script>
 export default {
   props: {
+    title: {
+      type: String,
+      required: true
+    },
     delta: {
+      type: Number,
+      required: true
+    },
+    finishedPacks: {
+      type: Number,
+      required: true
+    },
+    requiredPacks: {
       type: Number,
       required: true
     }
