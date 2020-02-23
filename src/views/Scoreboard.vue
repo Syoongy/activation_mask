@@ -89,7 +89,7 @@ export default {
       this.stations.push(listToBePushed);
     }
     this.nextPageTimeout = setTimeout(() => {
-      this.$router.push("/combinedHall");
+      this.$router.push("/statistics/combinedHall");
     }, 60000);
   },
   beforeDestroy() {
