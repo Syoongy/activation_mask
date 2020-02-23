@@ -1,6 +1,5 @@
 export default function() {
   const d = new Date();
-  // console.log(d);
   let session = "";
   let currentDate = d.getDate();
   let currentHour = d.getHours();
