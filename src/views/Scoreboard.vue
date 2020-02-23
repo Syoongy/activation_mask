@@ -53,9 +53,16 @@ export default {
   },
   sockets: {
     updatedStationQty(val) {
-      const currShift = getCurrentShift();
-      const currList = this.getCurrShiftList(val, currShift);
-      this.updateStationList(currList);
+      for (let i = 1; i < this.stations.length; i++) {
+        const stationColumn = this.stations[i];
+        for (const station of stationColumn) {
+          const name = station.letter + station.num;
+          if (name === val.id.split("-")[1]) {
+            station.quantity = val.qty;
+            break;
+          }
+        }
+      }
     }
   },
   computed: {
@@ -92,7 +99,6 @@ export default {
   async mounted() {
     const res = await ky.get("http://54.254.221.3:8080/getFinished").json();
     const currShift = getCurrentShift();
-    // const currShift = "1";
     const currShiftList = this.getCurrShiftList(res, currShift);
     const numList = ["1", "2", "3", "4", "5"];
     const numberList = [];
@@ -123,7 +129,8 @@ export default {
       this.stations.push(listToBePushed);
     }
     this.nextPageTimeout = setTimeout(() => {
-      window.location.href = "http://54.169.249.3:3000/statistics/saftiCombinedHall";
+      window.location.href =
+        "http://54.169.249.3:3000/statistics/saftiCombinedHall";
     }, 30000);
   },
   beforeDestroy() {
