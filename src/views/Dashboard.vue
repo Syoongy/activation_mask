@@ -68,7 +68,6 @@ export default {
     this.nextPageTimeout = setTimeout(() => {
       window.location.href = "/scoreboard";
     }, 60000);
-
   },
   methods: {
     updateStationList(val) {
