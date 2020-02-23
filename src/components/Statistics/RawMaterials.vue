@@ -45,14 +45,6 @@ export default {
       type: String,
       required: true
     },
-    masksTimeRemaining: {
-      type: Number,
-      required: true
-    },
-    ziplocsTimeRemaining: {
-      type: Number,
-      required: true
-    },
     masksRemaining: {
       type: Number,
       required: true
@@ -68,6 +60,10 @@ export default {
     ziplocsTotal: {
       type: Number,
       required: true
+    },
+    targetPacksPerHour: {
+      type: Number,
+      required: true
     }
   },
   computed: {
@@ -78,6 +74,12 @@ export default {
       //   // "has-text-warning"
       // };
       return "has-text-success";
+    },
+    masksTimeRemaining() {
+      return (this.masksRemaining / (this.targetPacksPerHour * 4)).toFixed(1);
+    },
+    ziplocsTimeRemaining() {
+      return (this.ziplocsRemaining / this.targetPacksPerHour).toFixed(1);
     }
   }
 };
