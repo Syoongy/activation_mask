@@ -69,7 +69,7 @@ export default {
       );
       //Node api
       const res = await ky
-        .post("http://54.254.221.3/:8080/shipped", {
+        .post("http://54.254.221.3:8080/shipped", {
           json: {
             numBoxes: this.qty,
             deliveryLocationId: this.deliveryId

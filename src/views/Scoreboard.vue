@@ -89,7 +89,7 @@ export default {
     };
   },
   async mounted() {
-    const res = await ky.get("http://54.254.221.3/:8080/getFinished").json();
+    const res = await ky.get("http://54.254.221.3:8080/getFinished").json();
     const currShift = getCurrentShift();
     // const currShift = "1";
     const currShiftList = this.getCurrShiftList(res, currShift);

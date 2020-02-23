@@ -156,7 +156,7 @@ export default {
         `http://supplypacking.pythonanywhere.com/add/${dataString}/`
       );
       //Node api
-      await ky.post("http://54.254.221.3/:8080/addReceived", {
+      await ky.post("http://54.254.221.3:8080/addReceived", {
         json: {
           mask: this.mask,
           thermometer: this.thermometer,
