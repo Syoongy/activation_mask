@@ -35,7 +35,7 @@ export default {
     };
   },
   async mounted() {
-    const res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    const res = await ky.get("http://54.254.221.3:8080/getFinished").json();
     const currShift = getCurrentShift();
     this.stationList = this.getCurrShiftList(res, currShift);
     this.currentShift = parseInt(currShift);

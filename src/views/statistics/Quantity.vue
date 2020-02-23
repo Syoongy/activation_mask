@@ -81,17 +81,17 @@ export default {
     };
   },
   async mounted() {
-    let res = await ky.get("http://54.169.249.3:8080/getAllReceived").json();
+    let res = await ky.get("http://54.254.221.3:8080/getAllReceived").json();
     const data = res.Item;
     this.receivedItems.mask = data.mask;
     this.receivedItems.thermometer = data.thermometer;
     this.receivedItems.sanitiser = data.handSanitiser;
     this.receivedItems.ziploc = data.ziploc;
-    res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    res = await ky.get("http://54.254.221.3:8080/getFinished").json();
     for (const section of res) {
       this.finishedBoxes += section.quantity;
     }
-    res = await ky.get("http://54.169.249.3:8080/totalShipped").json();
+    res = await ky.get("http://54.254.221.3:8080/totalShipped").json();
     this.shipped = res[0].totalBoxes;
   }
 };

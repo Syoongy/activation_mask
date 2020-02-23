@@ -2,7 +2,24 @@
   <div class="section">
     <div class="container">
       <div class="columns">
-        <div class="column"></div>
+        <div class="column is-1"></div>
+        <div class="box column wolf">
+          <p
+            class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
+          >
+            WOLVES ({{ this.sectorTotals.wolvesTotal }})
+          </p>
+        </div>
+        <div class="box column bear">
+          <p
+            class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
+          >
+            BEARS ({{ this.sectorTotals.bearsTotal }})
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="box column"></div>
         <div
           class="box column"
           :class="classObject(alpha.letter)"
@@ -41,26 +58,43 @@ export default {
       this.updateStationList(currList);
     }
   },
+  computed: {
+    sectorTotals() {
+      let wolvesTotal = 0;
+      let bearsTotal = 0;
+      for (let i = 0; i < 5; i++) {
+        wolvesTotal += this.alphaList[i].total;
+      }
+      for (let i = 5; i < 10; i++) {
+        bearsTotal += this.alphaList[i].total;
+      }
+      return { wolvesTotal: wolvesTotal, bearsTotal: bearsTotal };
+    }
+  },
   data() {
     return {
       stations: [],
       alphaList: [
         { letter: "A", total: 0 },
-        { letter: "D", total: 0 },
-        { letter: "C", total: 0 },
         { letter: "B", total: 0 },
+        { letter: "C", total: 0 },
+        { letter: "D", total: 0 },
         { letter: "E", total: 0 },
-        { letter: "F", total: 0 }
+        { letter: "F", total: 0 },
+        { letter: "G", total: 0 },
+        { letter: "H", total: 0 },
+        { letter: "I", total: 0 },
+        { letter: "J", total: 0 }
       ],
       nextPageTimeout: null
     };
   },
   async mounted() {
-    const res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    const res = await ky.get("http://54.254.221.3:8080/getFinished").json();
     const currShift = getCurrentShift();
     // const currShift = "1";
     const currShiftList = this.getCurrShiftList(res, currShift);
-    const numList = ["1", "2", "3", "4", "5", "6", "7"];
+    const numList = ["1", "2", "3", "4", "5"];
     const numberList = [];
     numList.forEach(ele =>
       numberList.push({ stationName: ele, isStation: false })
@@ -107,25 +141,34 @@ export default {
       let styling = "";
       switch (letter) {
         case "A":
-          styling = "has-background-a";
+          styling = "wolf";
           break;
         case "B":
-          styling = "has-background-b";
+          styling = "wolf-alternate";
           break;
         case "C":
-          styling = "has-background-c";
+          styling = "wolf";
           break;
         case "D":
-          styling = "has-background-d";
+          styling = "wolf-alternate";
           break;
         case "E":
-          styling = "has-background-danger";
+          styling = "wolf";
           break;
         case "F":
-          styling = "has-background-black has-text-white";
+          styling = "bear";
           break;
         case "G":
-          styling = "has-background-success";
+          styling = "bear-alternate";
+          break;
+        case "H":
+          styling = "bear";
+          break;
+        case "I":
+          styling = "bear-alternate";
+          break;
+        case "J":
+          styling = "bear";
           break;
         default:
           break;
@@ -159,19 +202,19 @@ export default {
   margin: 0 0.2rem 0.75rem;
 }
 
-.has-background-a {
-  background-color: #12005e !important;
+.wolf {
+  background-color: #002f6c !important;
 }
 
-.has-background-b {
-  background-color: #003d00 !important;
+.wolf-alternate {
+  background-color: #01579b !important;
 }
 
-.has-background-c {
-  background-color: #002171 !important;
+.bear {
+  background-color: #b71c1c !important;
 }
 
-.has-background-d {
-  background-color: #ac1900 !important;
+.bear-alternate {
+  background-color: #f05545 !important;
 }
 </style>
