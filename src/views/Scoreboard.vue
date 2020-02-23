@@ -59,6 +59,10 @@ export default {
           const name = station.letter + station.num;
           if (name === val.id.split("-")[1]) {
             station.quantity = val.qty;
+            const alpha = this.alphaList.find(
+              ele => ele.letter === station.letter
+            );
+            alpha.total += 1;
             break;
           }
         }
@@ -128,10 +132,10 @@ export default {
       }
       this.stations.push(listToBePushed);
     }
-    this.nextPageTimeout = setTimeout(() => {
-      window.location.href =
-        "http://54.169.249.3:3000/statistics/saftiCombinedHall";
-    }, 30000);
+    // this.nextPageTimeout = setTimeout(() => {
+    //   window.location.href =
+    //     "http://54.169.249.3:3000/statistics/saftiCombinedHall";
+    // }, 30000);
   },
   beforeDestroy() {
     this.nextPageTimeout = null;
