@@ -51,7 +51,8 @@ export default {
         { letter: "B", total: 0 },
         { letter: "E", total: 0 },
         { letter: "F", total: 0 }
-      ]
+      ],
+      nextPageTimeout: null
     };
   },
   async mounted() {
@@ -87,6 +88,9 @@ export default {
       }
       this.stations.push(listToBePushed);
     }
+    this.nextPageTimeout = setTimeout(() => {
+      window.location.href = "/";
+    }, 60000);
   },
   methods: {
     updateStationList(val) {

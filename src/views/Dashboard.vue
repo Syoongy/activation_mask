@@ -29,7 +29,8 @@ export default {
   },
   data() {
     return {
-      stationList: []
+      stationList: [],
+      nextPageTimeout: null
     };
   },
   async mounted() {
@@ -63,6 +64,11 @@ export default {
     //   { stationNo: "64", quantity: 10 },
     //   { stationNo: "75", quantity: 12 }
     // ];
+
+    this.nextPageTimeout = setTimeout(() => {
+      window.location.href = "/scoreboard";
+    }, 60000);
+
   },
   methods: {
     updateStationList(val) {
