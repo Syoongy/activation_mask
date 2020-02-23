@@ -2,11 +2,32 @@
   <section id="quantity-section">
     <div class="is-flex" id="quantity-container">
       <div class="box has-background-black-ter box-spacing">
-        <RequirementDelta title="Delta (Combined)" :delta="currentRequirement.delta+currentRequirement.saftiDelta" :finishedPacks="currentRequirement.finishedPacks+currentRequirement.saftiFinishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks+currentRequirement.currentRequiredPacks"/>
+        <RequirementDelta
+          title="Delta (Combined)"
+          :delta="currentRequirement.delta + currentRequirement.saftiDelta"
+          :finishedPacks="
+            currentRequirement.finishedPacks +
+              currentRequirement.saftiFinishedPacks
+          "
+          :requiredPacks="
+            currentRequirement.currentRequiredPacks +
+              currentRequirement.currentRequiredPacks
+          "
+        />
       </div>
       <div class="box has-background-black-ter box-spacing columns">
-        <RequirementDelta title="Delta (PLC)" :delta="currentRequirement.delta" :finishedPacks="currentRequirement.finishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
-        <RequirementDelta title="Delta (SAFTI)" :delta="currentRequirement.saftiDelta" :finishedPacks="currentRequirement.saftiFinishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
+        <RequirementDelta
+          title="Delta (PLC)"
+          :delta="currentRequirement.delta"
+          :finishedPacks="currentRequirement.finishedPacks"
+          :requiredPacks="currentRequirement.currentRequiredPacks"
+        />
+        <RequirementDelta
+          title="Delta (SAFTI)"
+          :delta="currentRequirement.saftiDelta"
+          :finishedPacks="currentRequirement.saftiFinishedPacks"
+          :requiredPacks="currentRequirement.currentRequiredPacks"
+        />
       </div>
 
       <div class="box has-background-black-ter box-spacing columns">
@@ -92,8 +113,10 @@ export default {
       return retObj;
     },
     remainingMaterialTime() {
-      let maskRemainingTime = this.remainingItems.mask / (this.targetPacksPerHour * 4);
-      let ziplocRemainingTime = this.remainingItems.ziploc / (this.targetPacksPerHour);
+      let maskRemainingTime =
+        this.remainingItems.mask / (this.targetPacksPerHour * 4);
+      let ziplocRemainingTime =
+        this.remainingItems.ziploc / this.targetPacksPerHour;
       let saftiMaskRemainingTime = 0.0;
       let saftiZiplocRemainingTime = 0.0;
 
@@ -103,7 +126,6 @@ export default {
         saftiMask: saftiMaskRemainingTime.toFixed(1),
         saftiZiploc: saftiZiplocRemainingTime.toFixed(1)
       };
-
     },
     currentRequirement() {
       const finishedPacks = this.finishedBoxes * this.packsPerBox;
