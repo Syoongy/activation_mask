@@ -5,9 +5,9 @@
         <p style="display: inline-block !important;">No. {{ rank }}</p>
       </div>
       <p class="column is-size-1 is-6 has-text-weight-bold">
-        Table {{ name }}
+        Station {{ name }}
       </p>
-      <p class="column is-size-1 has-text-weight-bold">{{ qty }}/{{currentShiftBoxTarget}}</p>
+      <p class="column is-size-1 has-text-weight-bold">{{ qty }}/18</p>
     </div>
   </div>
 </template>
@@ -24,10 +24,6 @@ export default {
       required: true
     },
     qty: {
-      type: Number,
-      required: true
-    },
-    currentShiftBoxTarget: {
       type: Number,
       required: true
     }

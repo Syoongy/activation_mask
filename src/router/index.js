@@ -39,12 +39,6 @@ const routes = [
       import(/* webpackChunkName: "home" */ "../views/statistics/Quantity")
   },
   {
-    path: "/statistics/combined",
-    name: "combined",
-    component: () =>
-      import(/* webpackChunkName: "home" */ "../views/statistics/Combined")
-  },
-  {
     path: "/scoreboard",
     name: "scoreboard",
     component: () =>

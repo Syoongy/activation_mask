@@ -2,7 +2,7 @@
   <section class="section">
     <div class="container">
       <Progress />
-      <Leaderboard :stations="stationList" :currentShift="this.currentShift" />
+      <Leaderboard :stations="stationList" />
     </div>
   </section>
 </template>
@@ -29,16 +29,13 @@ export default {
   },
   data() {
     return {
-      stationList: [],
-      nextPageTimeout: null,
-      currentShift: 1
+      stationList: []
     };
   },
   async mounted() {
     const res = await ky.get("http://54.254.221.3:8080/getFinished").json();
     const currShift = getCurrentShift();
     this.stationList = this.getCurrShiftList(res, currShift);
-    this.currentShift = parseInt(currShift);
     // this.stationList = [
     //   { stationNo: "1", quantity: 10 },
     //   { stationNo: "2", quantity: 20 },
@@ -66,13 +63,6 @@ export default {
     //   { stationNo: "64", quantity: 10 },
     //   { stationNo: "75", quantity: 12 }
     // ];
-
-    this.nextPageTimeout = setTimeout(() => {
-      this.$router.push("/scoreboard");
-    }, 60000);
-  },
-  beforeDestroy() {
-    this.nextPageTimeout = null;
   },
   methods: {
     updateStationList(val) {
