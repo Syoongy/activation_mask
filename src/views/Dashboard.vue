@@ -2,7 +2,7 @@
   <section class="section">
     <div class="container">
       <Progress />
-      <Leaderboard :stations="stationList" />
+      <Leaderboard :stations="stationList" :currentShift="this.currentShift" />
     </div>
   </section>
 </template>
@@ -30,13 +30,15 @@ export default {
   data() {
     return {
       stationList: [],
-      nextPageTimeout: null
+      nextPageTimeout: null,
+      currentShift: 1
     };
   },
   async mounted() {
     const res = await ky.get("http://54.169.249.3:8080/getFinished").json();
     const currShift = getCurrentShift();
     this.stationList = this.getCurrShiftList(res, currShift);
+    this.currentShift = parseInt(currShift);
     // this.stationList = [
     //   { stationNo: "1", quantity: 10 },
     //   { stationNo: "2", quantity: 20 },
