@@ -2,11 +2,32 @@
   <section id="quantity-section">
     <div class="is-flex" id="quantity-container">
       <div class="box has-background-black-ter box-spacing">
-        <RequirementDelta title="Delta (Combined)" :delta="currentRequirement.delta+currentRequirement.saftiDelta" :finishedPacks="currentRequirement.finishedPacks+currentRequirement.saftiFinishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks+currentRequirement.currentRequiredPacks"/>
+        <RequirementDelta
+          title="Delta (Combined)"
+          :delta="currentRequirement.delta + currentRequirement.saftiDelta"
+          :finishedPacks="
+            currentRequirement.finishedPacks +
+              currentRequirement.saftiFinishedPacks
+          "
+          :requiredPacks="
+            currentRequirement.currentRequiredPacks +
+              currentRequirement.currentRequiredPacks
+          "
+        />
       </div>
       <div class="box has-background-black-ter box-spacing columns">
-        <RequirementDelta title="Delta (PLC)" :delta="currentRequirement.delta" :finishedPacks="currentRequirement.finishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
-        <RequirementDelta title="Delta (SAFTI)" :delta="currentRequirement.saftiDelta" :finishedPacks="currentRequirement.saftiFinishedPacks" :requiredPacks="currentRequirement.currentRequiredPacks"/>
+        <RequirementDelta
+          title="Delta (PLC)"
+          :delta="currentRequirement.delta"
+          :finishedPacks="currentRequirement.finishedPacks"
+          :requiredPacks="currentRequirement.currentRequiredPacks"
+        />
+        <RequirementDelta
+          title="Delta (SAFTI)"
+          :delta="currentRequirement.saftiDelta"
+          :finishedPacks="currentRequirement.saftiFinishedPacks"
+          :requiredPacks="currentRequirement.currentRequiredPacks"
+        />
       </div>
 
       <div class="box has-background-black-ter box-spacing columns">
@@ -14,21 +35,19 @@
           class="column"
           title="Raw Materials (PLC)"
           :masksRemaining="remainingItems.mask"
-          :masksTimeRemaining="remainingMaterialTime.mask"
           :masksTotal="receivedItems.mask"
-          :ziplocsTimeRemaining="remainingMaterialTime.ziploc"
           :ziplocsRemaining="remainingItems.ziploc"
           :ziplocsTotal="receivedItems.ziploc"
+          :targetPacksPerHour="targetPacksPerHour"
         ></RawMaterials>
         <RawMaterials
           class="column"
           title="Raw Materials (SAFTI)"
           :masksRemaining="saftiRemainingItems.mask"
-          :masksTimeRemaining="remainingMaterialTime.saftiMask"
           :masksTotal="saftiReceivedItems.mask"
-          :ziplocsTimeRemaining="remainingMaterialTime.saftiZiploc"
           :ziplocsRemaining="saftiRemainingItems.ziploc"
           :ziplocsTotal="saftiReceivedItems.ziploc"
+          :targetPacksPerHour="targetPacksPerHour"
         ></RawMaterials>
       </div>
 
@@ -46,6 +65,7 @@
 import CurrentRequirement from "@/components/Statistics/CurrentRequirement";
 import RequirementDelta from "@/components/Statistics/RequirementDelta";
 import RawMaterials from "@/components/Statistics/RawMaterials";
+import io from "socket.io-client";
 
 import ky from "ky";
 
@@ -74,36 +94,22 @@ export default {
     remainingItems() {
       const retObj = { ...this.receivedItems };
       retObj.mask = retObj.mask - this.finishedBoxes * this.boxMask;
-      retObj.thermometer =
-        retObj.thermometer - this.finishedBoxes * this.boxThermometer;
-      retObj.sanitiser =
-        retObj.sanitiser - this.finishedBoxes * this.boxSanitiser;
+      // retObj.thermometer =
+      //   retObj.thermometer - this.finishedBoxes * this.boxThermometer;
+      // retObj.sanitiser =
+      //   retObj.sanitiser - this.finishedBoxes * this.boxSanitiser;
       retObj.ziploc = retObj.ziploc - this.finishedBoxes * this.boxZiploc;
       return retObj;
     },
     saftiRemainingItems() {
       const retObj = { ...this.saftiReceivedItems };
       retObj.mask = retObj.mask - this.saftiFinishedBoxes * this.boxMask;
-      retObj.thermometer =
-        retObj.thermometer - this.saftiFinishedBoxes * this.boxThermometer;
-      retObj.sanitiser =
-        retObj.sanitiser - this.saftiFinishedBoxes * this.boxSanitiser;
+      // retObj.thermometer =
+      //   retObj.thermometer - this.saftiFinishedBoxes * this.boxThermometer;
+      // retObj.sanitiser =
+      //   retObj.sanitiser - this.saftiFinishedBoxes * this.boxSanitiser;
       retObj.ziploc = retObj.ziploc - this.saftiFinishedBoxes * this.boxZiploc;
       return retObj;
-    },
-    remainingMaterialTime() {
-      let maskRemainingTime = this.remainingItems.mask / (this.targetPacksPerHour * 4);
-      let ziplocRemainingTime = this.remainingItems.ziploc / (this.targetPacksPerHour);
-      let saftiMaskRemainingTime = 0.0;
-      let saftiZiplocRemainingTime = 0.0;
-
-      return {
-        mask: maskRemainingTime.toFixed(1),
-        ziploc: ziplocRemainingTime.toFixed(1),
-        saftiMask: saftiMaskRemainingTime.toFixed(1),
-        saftiZiploc: saftiZiplocRemainingTime.toFixed(1)
-      };
-
     },
     currentRequirement() {
       const finishedPacks = this.finishedBoxes * this.packsPerBox;
@@ -185,11 +191,34 @@ export default {
       finishedBoxes: 0,
       saftiFinishedBoxes: 0,
       currentDateObj: new Date(),
-      myInterval: null
+      myInterval: null,
+      saftiSocket: null
     };
   },
-
+  methods: {
+    setSaftiReceivedItems(val) {
+      console.log(val);
+      const data = val.Item;
+      this.saftiReceivedItems.mask = data.mask;
+      this.saftiReceivedItems.thermometer = data.thermometer;
+      this.saftiReceivedItems.sanitiser = data.handSanitiser;
+      this.saftiReceivedItems.ziploc = data.ziploc;
+    },
+    setSaftiFinishedBoxes(val) {
+      let newFinishedBoxesValues = 0;
+      for (const section of val) {
+        newFinishedBoxesValues += section.quantity;
+      }
+      this.saftiFinishedBoxes = newFinishedBoxesValues;
+    }
+  },
   async mounted() {
+    //Setup safti socket
+    this.saftiSocket = io("http://54.254.221.3:8080");
+    this.saftiSocket.on("receivedValues", this.setSaftiReceivedItems);
+    this.saftiSocket.on("finishedValues", this.setSaftiFinishedBoxes);
+
+    //Retrieve data
     let res = await ky.get("http://54.169.249.3:8080/getAllReceived").json();
     let data = res.Item;
     this.receivedItems.mask = data.mask;
@@ -218,7 +247,6 @@ export default {
       this.currentDateObj = new Date();
     }, 900000);
   },
-
   beforeDestroy() {
     this.myInterval == null;
   }

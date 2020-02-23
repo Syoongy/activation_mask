@@ -6,9 +6,11 @@
     <div
       class="column box has-background-black-ter has-text-centered has-text-white"
     >
-      <p class="has-text-weight-bold is-size-2">{{title}}</p>
+      <p class="has-text-weight-bold is-size-2">{{ title }}</p>
       <p class="has-text-weight-bold is-size-1">{{ delta }}</p>
-      <p class="has-text-weight-bold is-size-4">Produced: {{ finishedPacks }} // Current Target: {{requiredPacks}} </p>
+      <p class="has-text-weight-bold is-size-4">
+        Produced: {{ finishedPacks }} // Current Target: {{ requiredPacks }}
+      </p>
     </div>
     <!-- <div
       class="column box has-background-black-ter has-text-centered has-text-success"

@@ -5,8 +5,12 @@
     </p>
     <div class="box has-background-black-ter column has-text-centered">
       <p class="has-text-weight-bold is-size-3" :class="classObject">Masks</p>
-      <p class="has-text-weight-bold is-size-2" :class="classObject">{{ masksTimeRemaining }} HOURS</p>
-      <p class="is-size-4" :class="classObject">{{ masksRemaining }} / {{ masksTotal }}</p>
+      <p class="has-text-weight-bold is-size-2" :class="classObject">
+        {{ masksTimeRemaining }} HOURS
+      </p>
+      <p class="is-size-4" :class="classObject">
+        {{ masksRemaining }} / {{ masksTotal }}
+      </p>
     </div>
     <!-- <div class="box has-background-black-ter column has-text-centered">
       <p class="has-text-weight-bold is-size-3" :class="classObject">
@@ -24,8 +28,12 @@
       <p class="has-text-weight-bold is-size-3" :class="classObject">
         Ziplocs
       </p>
-      <p class="has-text-weight-bold is-size-2" :class="classObject">{{ ziplocsTimeRemaining }} HOURS</p>
-      <p class="is-size-4" :class="classObject">{{ ziplocsRemaining }} / {{ziplocsTotal}}</p>
+      <p class="has-text-weight-bold is-size-2" :class="classObject">
+        {{ ziplocsTimeRemaining }} HOURS
+      </p>
+      <p class="is-size-4" :class="classObject">
+        {{ ziplocsRemaining }} / {{ ziplocsTotal }}
+      </p>
     </div>
   </div>
 </template>
@@ -35,14 +43,6 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
-    },
-    masksTimeRemaining: {
-      type: Number,
-      required: true
-    },
-    ziplocsTimeRemaining: {
-      type: Number,
       required: true
     },
     masksRemaining: {
@@ -60,6 +60,10 @@ export default {
     ziplocsTotal: {
       type: Number,
       required: true
+    },
+    targetPacksPerHour: {
+      type: Number,
+      required: true
     }
   },
   computed: {
@@ -69,7 +73,13 @@ export default {
       //   // "has-text-danger": this.title !== "Received"
       //   // "has-text-warning"
       // };
-      return "has-text-success"
+      return "has-text-success";
+    },
+    masksTimeRemaining() {
+      return (this.masksRemaining / (this.targetPacksPerHour * 4)).toFixed(1);
+    },
+    ziplocsTimeRemaining() {
+      return (this.ziplocsRemaining / this.targetPacksPerHour).toFixed(1);
     }
   }
 };

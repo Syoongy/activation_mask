@@ -89,8 +89,11 @@ export default {
       this.stations.push(listToBePushed);
     }
     this.nextPageTimeout = setTimeout(() => {
-      window.location.href = "/";
+      this.$router.push("/");
     }, 60000);
+  },
+  beforeDestroy() {
+    this.nextPageTimeout = null;
   },
   methods: {
     updateStationList(val) {

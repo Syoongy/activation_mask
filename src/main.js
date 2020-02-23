@@ -8,9 +8,9 @@ import io from "socket.io-client";
 // PLC IP
 const socket = io("http://54.169.249.3:8080");
 // SAFTI IP
-const socket1 = io("http://54.254.221.3:8080");
+// const socket1 = io("http://54.254.221.3:8080");
 Vue.use(VueSocketIOExt, socket);
-Vue.use(VueSocketIOExt, socket1);
+// Vue.use(VueSocketIOExt, socket1);
 Vue.use(Notifications);
 Vue.config.productionTip = false;
 import "@/assets/bulma.min.css";
