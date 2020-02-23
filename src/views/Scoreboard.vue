@@ -132,10 +132,10 @@ export default {
       }
       this.stations.push(listToBePushed);
     }
-    // this.nextPageTimeout = setTimeout(() => {
-    //   window.location.href =
-    //     "http://54.169.249.3:3000/statistics/saftiCombinedHall";
-    // }, 30000);
+    this.nextPageTimeout = setTimeout(() => {
+      window.location.href =
+        "http://54.169.249.3:3000/statistics/saftiCombinedHall";
+    }, 30000);
   },
   beforeDestroy() {
     this.nextPageTimeout = null;
