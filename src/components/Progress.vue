@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       bar: null,
-      boxTarget: 756,
+      boxTarget: 840,
       boxCompleted: 0
     };
   },

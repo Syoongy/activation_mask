@@ -76,16 +76,17 @@ export default {
       stations: [],
       alphaList: [
         { letter: "A", total: 0 },
-        { letter: "D", total: 0 },
-        { letter: "C", total: 0 },
         { letter: "B", total: 0 },
+        { letter: "C", total: 0 },
+        { letter: "D", total: 0 },
         { letter: "E", total: 0 },
         { letter: "F", total: 0 },
         { letter: "G", total: 0 },
         { letter: "H", total: 0 },
         { letter: "I", total: 0 },
         { letter: "J", total: 0 }
-      ]
+      ],
+      nextPageTimeout: null
     };
   },
   async mounted() {
@@ -121,6 +122,12 @@ export default {
       }
       this.stations.push(listToBePushed);
     }
+    this.nextPageTimeout = setTimeout(() => {
+      this.$router.push("/");
+    }, 60000);
+  },
+  beforeDestroy() {
+    this.nextPageTimeout = null;
   },
   methods: {
     updateStationList(val) {
