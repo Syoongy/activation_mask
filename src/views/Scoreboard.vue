@@ -7,14 +7,14 @@
           <p
             class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
           >
-            WOLVES ({{this.sectorTotals.wolvesTotal}})
+            WOLVES ({{ this.sectorTotals.wolvesTotal }})
           </p>
         </div>
         <div class="box column bear">
           <p
             class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
           >
-            BEARS ({{this.sectorTotals.bearsTotal}})
+            BEARS ({{ this.sectorTotals.bearsTotal }})
           </p>
         </div>
       </div>
@@ -69,7 +69,7 @@ export default {
       for (let i = 5; i < 10; i++) {
         bearsTotal += this.alphaList[i].total;
       }
-      return {wolvesTotal: wolvesTotal, bearsTotal: bearsTotal}
+      return { wolvesTotal: wolvesTotal, bearsTotal: bearsTotal };
     }
   },
   data() {
