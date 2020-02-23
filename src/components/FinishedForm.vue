@@ -117,7 +117,7 @@ export default {
       );
       //Node api
       const res = await ky
-        .post("http://54.169.249.3:8080/addFinished", {
+        .post("http://54.254.221.3/:8080/addFinished", {
           json: {
             stationNo: this.name,
             quantity: this.qty

@@ -88,7 +88,7 @@ export default {
   },
   async mounted() {
     const res = await ky
-      .get("http://54.169.249.3:8080/getTotalFinished")
+      .get("http://54.254.221.3/:8080/getTotalFinished")
       .json();
     this.boxCompleted = res.totalQuantity;
     /* construct manually */
