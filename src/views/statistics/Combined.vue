@@ -179,10 +179,10 @@ export default {
     return {
       receivedItems: { mask: 0, thermometer: 0, sanitiser: 0, ziploc: 0 },
       saftiReceivedItems: { mask: 0, thermometer: 0, sanitiser: 0, ziploc: 0 },
-      boxMask: 1600,
+      boxMask: 800,
       boxThermometer: 0,
       boxSanitiser: 0,
-      boxZiploc: 400,
+      boxZiploc: 200,
       shipped: 0,
       delivered: 0,
       packsPerBox: 200,
