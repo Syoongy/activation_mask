@@ -152,9 +152,9 @@ export default {
         `m=${this.mask}&t=${this.thermometer}&h=${this.sanitiser}&z=${this.ziploc}`
       );
       //Python api
-      await ky.get(
-        `http://supplypacking.pythonanywhere.com/add/${dataString}/`
-      );
+      // await ky.get(
+      //   `http://supplypacking.pythonanywhere.com/add/${dataString}/`
+      // );
       //Node api
       await ky.post("http://54.169.249.3:8080/addReceived", {
         json: {
