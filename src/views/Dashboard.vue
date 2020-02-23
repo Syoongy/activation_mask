@@ -66,8 +66,11 @@ export default {
     // ];
 
     this.nextPageTimeout = setTimeout(() => {
-      window.location.href = "/scoreboard";
+      this.$router.push("/scoreboard");
     }, 60000);
+  },
+  beforeDestroy() {
+    this.nextPageTimeout = null;
   },
   methods: {
     updateStationList(val) {
