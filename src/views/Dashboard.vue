@@ -43,9 +43,9 @@ export default {
     this.stationList = this.getCurrShiftList(res, currShift);
     this.currentShift = parseInt(currShift);
 
-    this.nextPageTimeout = setTimeout(() => {
-      this.$router.push("/scoreboard");
-    }, 60000);
+    // this.nextPageTimeout = setTimeout(() => {
+    //   this.$router.push("/scoreboard");
+    // }, 60000);
   },
   beforeDestroy() {
     this.nextPageTimeout = null;
