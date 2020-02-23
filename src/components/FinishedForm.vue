@@ -112,9 +112,9 @@ export default {
       this.toggleModal();
       //submit to api here
       //Python api
-      await ky.get(
-        `http://supplypacking.pythonanywhere.com/add_production/${this.name}/${this.qty}/`
-      );
+      // await ky.get(
+      //   `http://supplypacking.pythonanywhere.com/add_production/${this.name}/${this.qty}/`
+      // );
       //Node api
       const res = await ky
         .post("http://54.254.221.3:8080/addFinished", {
