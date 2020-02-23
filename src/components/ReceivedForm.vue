@@ -174,7 +174,7 @@ export default {
         type: "my-success",
         title: "Success!",
         text: "Input has been submitted!",
-        duration: 1000,
+        duration: 3000,
         max: 1
       });
     },
