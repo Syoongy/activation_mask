@@ -45,6 +45,18 @@ const routes = [
       import(/* webpackChunkName: "home" */ "../views/statistics/Combined")
   },
   {
+    path: "/statistics/combinedHall",
+    name: "combinedHall",
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/statistics/CombinedHall")
+  },
+  {
+    path: "/statistics/saftiCombinedHall",
+    name: "combinedHall",
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/statistics/saftiCombinedHall")
+  },
+  {
     path: "/scoreboard",
     name: "scoreboard",
     component: () =>
