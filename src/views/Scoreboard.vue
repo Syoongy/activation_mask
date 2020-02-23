@@ -7,14 +7,14 @@
           <p
             class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
           >
-            WOLVES
+            WOLVES ({{this.sectorTotals.wolvesTotal}})
           </p>
         </div>
         <div class="box column bear">
           <p
             class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
           >
-            BEARS
+            BEARS ({{this.sectorTotals.bearsTotal}})
           </p>
         </div>
       </div>
@@ -57,6 +57,19 @@ export default {
       const currShift = getCurrentShift();
       const currList = this.getCurrShiftList(val, currShift);
       this.updateStationList(currList);
+    }
+  },
+  computed: {
+    sectorTotals() {
+      let wolvesTotal = 0;
+      let bearsTotal = 0;
+      for (let i = 0; i < 5; i++) {
+        wolvesTotal += this.alphaList[i].total;
+      }
+      for (let i = 5; i < 10; i++) {
+        bearsTotal += this.alphaList[i].total;
+      }
+      return {wolvesTotal: wolvesTotal, bearsTotal: bearsTotal}
     }
   },
   data() {
