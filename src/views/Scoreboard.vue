@@ -36,9 +36,16 @@ export default {
   },
   sockets: {
     updatedStationQty(val) {
-      const currShift = getCurrentShift();
-      const currList = this.getCurrShiftList(val, currShift);
-      this.updateStationList(currList);
+      for (let i = 1; i < this.stations.length; i++) {
+        const stationColumn = this.stations[i];
+        for (const station of stationColumn) {
+          const name = station.letter + station.num;
+          if (name === val.id.split("-")[1]) {
+            station.quantity = val.qty;
+            break;
+          }
+        }
+      }
     }
   },
   data() {
