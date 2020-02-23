@@ -134,7 +134,7 @@ export default {
         type: "my-success",
         title: "Success!",
         text: `The ID is ${res[0].uniqueId}`,
-        duration: -1000,
+        duration: 3000,
         max: 1
       });
     },
