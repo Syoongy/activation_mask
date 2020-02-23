@@ -89,7 +89,6 @@ export default {
     this.nextPageTimeout = setTimeout(() => {
       this.$router.push("/");
     }, 30000);
-
   },
   beforeDestroy() {
     this.nextPageTimeout = null;

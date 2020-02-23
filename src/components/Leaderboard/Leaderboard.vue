@@ -47,9 +47,9 @@ export default {
       });
       return listToSort;
     },
-    currentShiftBoxTarget(){
+    currentShiftBoxTarget() {
       const currentShift = this.currentShift;
-      if ((currentShift % 2) == 0){
+      if (currentShift % 2 == 0) {
         return 18;
       } else {
         return 20;

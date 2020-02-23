@@ -4,10 +4,10 @@
       <div class="column is-size-1 is-3 has-text-weight-bold">
         <p style="display: inline-block !important;">No. {{ rank }}</p>
       </div>
-      <p class="column is-size-1 is-6 has-text-weight-bold">
-        Table {{ name }}
+      <p class="column is-size-1 is-6 has-text-weight-bold">Table {{ name }}</p>
+      <p class="column is-size-1 has-text-weight-bold">
+        {{ qty }}/{{ currentShiftBoxTarget }}
       </p>
-      <p class="column is-size-1 has-text-weight-bold">{{ qty }}/{{currentShiftBoxTarget}}</p>
     </div>
   </div>
 </template>

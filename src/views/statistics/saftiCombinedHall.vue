@@ -89,7 +89,6 @@ export default {
     this.nextPageTimeout = setTimeout(() => {
       window.location.href = "http://54.254.221.3:3000/";
     }, 30000);
-
   },
   beforeDestroy() {
     this.nextPageTimeout = null;
