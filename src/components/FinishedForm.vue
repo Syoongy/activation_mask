@@ -28,10 +28,10 @@
             <option value="D">D</option>
             <option value="E">E</option>
             <option value="F">F</option>
-            <option value="F">G</option>
-            <option value="F">H</option>
-            <option value="F">I</option>
-            <option value="F">J</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
           </select>
         </div>
       </div>

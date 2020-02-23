@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <h1 class="title">Received Products</h1>
+    <h1 class="title">SAFTI Received Products</h1>
     <ReceivedForm />
   </section>
 </template>

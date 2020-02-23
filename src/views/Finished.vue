@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <h1 class="title">Finished Products</h1>
+    <h1 class="title">SAFTI Finished Products</h1>
     <FinishedForm />
   </section>
 </template>
