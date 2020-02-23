@@ -53,7 +53,6 @@ export default {
   },
   sockets: {
     updatedStationQty(val) {
-      console.log(val);
       const currShift = getCurrentShift();
       const currList = this.getCurrShiftList(val, currShift);
       this.updateStationList(currList);
