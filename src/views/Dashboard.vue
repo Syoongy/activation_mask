@@ -26,7 +26,8 @@ export default {
       const station = this.stationList.find(
         ele => ele.stationNo === stationName
       );
-      station.quantity = val.qty;
+      if (station) station.quantity = val.qty;
+      else this.stationList.push({ stationNo: stationName, quantity: val.qty });
     }
   },
   data() {
