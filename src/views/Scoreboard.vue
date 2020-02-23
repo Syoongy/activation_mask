@@ -42,6 +42,10 @@ export default {
           const name = station.letter + station.num;
           if (name === val.id.split("-")[1]) {
             station.quantity = val.qty;
+            const alpha = this.alphaList.find(
+              ele => ele.letter === station.letter
+            );
+            alpha.total += 1;
             break;
           }
         }
