@@ -146,7 +146,7 @@ export default {
       this.modalIsActive = !this.modalIsActive;
     },
     async submitForm() {
-      this.toggleModal;
+      this.toggleModal();
       //submit to api here
       const dataString = encodeURI(
         `m=${this.mask}&t=${this.thermometer}&h=${this.sanitiser}&z=${this.ziploc}`
