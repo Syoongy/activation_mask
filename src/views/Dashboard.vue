@@ -76,6 +76,8 @@ export default {
 </script>
 <style scoped>
 .section {
+  overflow-x: hidden;
+  min-height: 100vh;
   background-color: #212121 !important;
 }
 </style>

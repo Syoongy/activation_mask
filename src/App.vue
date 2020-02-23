@@ -20,6 +20,12 @@
   -moz-osx-font-smoothing: grayscale;
   background: #fff;
 }
+/* html {
+  overflow: hidden;
+} */
+::-webkit-scrollbar {
+    display: none;
+}
 
 .custom-notification {
   background: #3abb67 !important;

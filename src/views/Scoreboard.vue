@@ -57,9 +57,9 @@ export default {
       stations: [],
       alphaList: [
         { letter: "A", total: 0 },
-        { letter: "D", total: 0 },
-        { letter: "C", total: 0 },
         { letter: "B", total: 0 },
+        { letter: "C", total: 0 },
+        { letter: "D", total: 0 },
         { letter: "E", total: 0 },
         { letter: "F", total: 0 }
       ],

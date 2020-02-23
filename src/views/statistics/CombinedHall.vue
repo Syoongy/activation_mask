@@ -1,7 +1,7 @@
 <template>
   <section id="quantity-section">
     <div class="is-flex" id="quantity-container">
-      <div class="box has-background-black-ter box-spacing columns">
+      <div class="box has-background-black-ter box-spacing">
         <CombinedHall
           title="TOTAL BOXES (PLC)"
           :finishedPacks="this.finishedBoxes"
