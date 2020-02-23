@@ -197,7 +197,7 @@ export default {
   },
   methods: {
     setSaftiReceivedItems(val) {
-      console.log(val);
+      // console.log(val);
       const data = val.Item;
       this.saftiReceivedItems.mask = data.mask;
       this.saftiReceivedItems.thermometer = data.thermometer;
