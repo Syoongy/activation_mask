@@ -162,8 +162,8 @@ export default {
 
 <style scoped>
 .is-size-1 {
-  line-height: 4.5rem !important;
-  font-size: 4rem !important;
+  line-height: 3.5rem !important;
+  font-size: 3.5rem !important;
 }
 
 .box {
