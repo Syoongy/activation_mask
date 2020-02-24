@@ -82,6 +82,7 @@
 
 <script>
 import ky from "ky";
+import getCurrentShift from "@/plugins/getCurrentShift";
 export default {
   name: "FinishedForm",
   computed: {
@@ -103,6 +104,9 @@ export default {
       isQtyCorrect: true,
       modalIsActive: false
     };
+  },
+  mounted() {
+    this.session = getCurrentShift();
   },
   methods: {
     toggleModal() {
@@ -127,7 +131,7 @@ export default {
       this.$socket.client.emit("addToStationNo", this.name);
       this.sAlpha = "A";
       this.sNum = "1";
-      this.session = "1";
+      this.session = getCurrentShift();
       this.qty = 1;
       this.$notify({
         group: "submitReq",
