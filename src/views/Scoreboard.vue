@@ -5,14 +5,14 @@
         <div class="column is-1"></div>
         <div class="box column wolf">
           <p
-            class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
+            class="has-text-centered has-text-weight-bold is-size-2 has-text-white"
           >
             WOLVES ({{ this.sectorTotals.wolvesTotal }})
           </p>
         </div>
         <div class="box column bear">
           <p
-            class="has-text-centered has-text-weight-bold is-size-1 has-text-white"
+            class="has-text-centered has-text-weight-bold is-size-2 has-text-white"
           >
             BEARS ({{ this.sectorTotals.bearsTotal }})
           </p>
@@ -132,10 +132,10 @@ export default {
       }
       this.stations.push(listToBePushed);
     }
-    this.nextPageTimeout = setTimeout(() => {
-      window.location.href =
-        "http://54.169.249.3:3000/statistics/saftiCombinedHall";
-    }, 30000);
+    // this.nextPageTimeout = setTimeout(() => {
+    //   window.location.href =
+    //     "http://54.169.249.3:3000/statistics/saftiCombinedHall";
+    // }, 30000);
   },
   beforeDestroy() {
     this.nextPageTimeout = null;
