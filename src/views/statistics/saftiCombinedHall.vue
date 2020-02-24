@@ -18,6 +18,7 @@
 <script>
 import CombinedHall from "@/components/Statistics/CombinedHall";
 import io from "socket.io-client";
+import getCurrentShift from "@/plugins/getCurrentShift";
 
 import ky from "ky";
 
@@ -36,7 +37,9 @@ export default {
     finishedValues(val) {
       let newFinishedBoxesValues = 0;
       for (const section of val) {
-        newFinishedBoxesValues += section.quantity;
+        const stationNameSplit = section.stationNo.split("-");
+        const isCurrShift = stationNameSplit[0] === this.currShift;
+        if (isCurrShift) newFinishedBoxesValues += section.quantity;
       }
       this.finishedBoxes = newFinishedBoxesValues;
     }
@@ -65,12 +68,15 @@ export default {
     setSaftiFinishedBoxes(val) {
       let newFinishedBoxesValues = 0;
       for (const section of val) {
-        newFinishedBoxesValues += section.quantity;
+        const stationNameSplit = section.stationNo.split("-");
+        const isCurrShift = stationNameSplit[0] === this.currShift;
+        if (isCurrShift) newFinishedBoxesValues += section.quantity;
       }
       this.saftiFinishedBoxes = newFinishedBoxesValues;
     }
   },
   async mounted() {
+    this.currShift = getCurrentShift();
     //Setup safti socket
     this.saftiSocket = io("http://54.254.221.3:8080");
     this.saftiSocket.on("receivedValues", this.setSaftiReceivedItems);
@@ -78,12 +84,16 @@ export default {
 
     let res = await ky.get("http://54.169.249.3:8080/getFinished").json();
     for (const section of res) {
-      this.finishedBoxes += section.quantity;
+      const stationNameSplit = section.stationNo.split("-");
+      const isCurrShift = stationNameSplit[0] === this.currShift;
+      if (isCurrShift) this.finishedBoxes += section.quantity;
     }
 
     res = await ky.get("http://54.254.221.3:8080/getFinished").json();
     for (const section of res) {
-      this.saftiFinishedBoxes += section.quantity;
+      const stationNameSplit = section.stationNo.split("-");
+      const isCurrShift = stationNameSplit[0] === this.currShift;
+      if (isCurrShift) this.saftiFinishedBoxes += section.quantity;
     }
 
     // this.nextPageTimeout = setTimeout(() => {
