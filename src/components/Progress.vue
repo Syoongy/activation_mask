@@ -63,6 +63,7 @@ c0.59-0.63,1.38-0.94,2.37-0.94h20.33c0.9,0,1.67,0.31,2.3,0.94C474.56,2.91,474.88
 <script>
 import TotalCount from "./TotalCount";
 import ldBar from "@loadingio/loading-bar";
+import getCurrentShift from "@/plugins/getCurrentShift";
 import ky from "ky";
 export default {
   components: {
@@ -82,7 +83,7 @@ export default {
   data() {
     return {
       bar: null,
-      boxTarget: 840,
+      boxTarget: 756,
       boxCompleted: 0
     };
   },
@@ -90,7 +91,10 @@ export default {
     const res = await ky
       .get("http://54.169.249.3:8080/getTotalFinished")
       .json();
+    const currShift = getCurrentShift();
+    if (currShift % 2 === 0) console.log(currShift);
     this.boxCompleted = res.totalQuantity;
+    this.boxCompleted -= 719;
     /* construct manually */
     this.bar = new ldBar("#progressBar", {
       type: "fill",
