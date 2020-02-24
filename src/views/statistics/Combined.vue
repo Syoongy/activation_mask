@@ -141,7 +141,7 @@ export default {
             numHoursInCompletedSeconds = currentSecond / 3600;
           } else if (currentHour == 15) {
             numHoursInCompletedHours = 7;
-          } else if (currentHour <= 22) {
+          } else if (currentHour < 22) {
             // Account for the 1 hour break
             numHoursInCompletedHours = currentHour - 8 - 1;
 
