@@ -71,7 +71,7 @@ export default {
     const currShift = getCurrentShift();
     // const currShift = "1";
     const currShiftList = this.getCurrShiftList(res, currShift);
-    const numList = ["1", "2", "3", "4", "5", "6", "7"];
+    const numList = ["1", "2", "3", "4", "5", "6", "7", "8"];
     const numberList = [];
     numList.forEach(ele =>
       numberList.push({ stationName: ele, isStation: false })
