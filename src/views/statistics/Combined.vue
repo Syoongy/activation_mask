@@ -4,15 +4,9 @@
       <div class="box has-background-black-ter box-spacing">
         <RequirementDelta
           title="Delta (Combined)"
-          :delta="currentRequirement.delta + currentRequirement.saftiDelta"
-          :finishedPacks="
-            currentRequirement.finishedPacks +
-              currentRequirement.saftiFinishedPacks
-          "
-          :requiredPacks="
-            currentRequirement.currentRequiredPacks +
-              currentRequirement.currentRequiredPacks
-          "
+          :delta="currentRequirement.totalDelta"
+          :finishedPacks="currentRequirement.totalFinishedPacks"
+          :requiredPacks="currentRequirement.totalRequiredPacks"
         />
       </div>
       <div class="box has-background-black-ter box-spacing columns">
@@ -93,25 +87,30 @@ export default {
   computed: {
     remainingItems() {
       const retObj = { ...this.receivedItems };
-      retObj.mask = retObj.mask - this.finishedBoxes * this.boxMask;
+      retObj.mask = retObj.mask - (this.finishedBoxes * this.boxMask);
       // retObj.thermometer =
       //   retObj.thermometer - this.finishedBoxes * this.boxThermometer;
       // retObj.sanitiser =
       //   retObj.sanitiser - this.finishedBoxes * this.boxSanitiser;
-      retObj.ziploc = retObj.ziploc - this.finishedBoxes * this.boxZiploc;
+      retObj.ziploc = retObj.ziploc - (this.finishedBoxes * this.boxZiploc);
       return retObj;
     },
     saftiRemainingItems() {
       const retObj = { ...this.saftiReceivedItems };
-      retObj.mask = retObj.mask - this.saftiFinishedBoxes * this.boxMask;
+      retObj.mask = retObj.mask - (this.saftiFinishedBoxes * this.boxMask);
       // retObj.thermometer =
       //   retObj.thermometer - this.saftiFinishedBoxes * this.boxThermometer;
       // retObj.sanitiser =
       //   retObj.sanitiser - this.saftiFinishedBoxes * this.boxSanitiser;
-      retObj.ziploc = retObj.ziploc - this.saftiFinishedBoxes * this.boxZiploc;
+      retObj.ziploc = retObj.ziploc - (this.saftiFinishedBoxes * this.boxZiploc);
       return retObj;
     },
     currentRequirement() {
+      // From: https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+      function numberWithCommas(x) {
+          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
       const finishedPacks = this.finishedBoxes * this.packsPerBox;
       const saftiFinishedPacks = this.saftiFinishedBoxes * this.packsPerBox;
 
@@ -167,13 +166,28 @@ export default {
 
       //
       return {
-        finishedPacks: finishedPacks,
-        saftiFinishedPacks: saftiFinishedPacks,
-        currentRequiredPacks: currentRequiredPacks,
-        delta: delta,
-        saftiDelta: saftiDelta
+        finishedPacks: numberWithCommas(finishedPacks),
+        saftiFinishedPacks: numberWithCommas(saftiFinishedPacks),
+        currentRequiredPacks: numberWithCommas(currentRequiredPacks),
+        delta: numberWithCommas(delta),
+        saftiDelta: numberWithCommas(saftiDelta),
+        totalFinishedPacks: numberWithCommas(finishedPacks + saftiFinishedPacks),
+        totalRequiredPacks: numberWithCommas(currentRequiredPacks * 2),
+        totalDelta: numberWithCommas(delta + saftiDelta)
       };
-    }
+    },
+    // currentRawMaterials() {
+    //   return {
+    //     finishedPacks: numberWithCommas(finishedPacks),
+    //     saftiFinishedPacks: numberWithCommas(saftiFinishedPacks),
+    //     currentRequiredPacks: numberWithCommas(currentRequiredPacks),
+    //     delta: numberWithCommas(delta),
+    //     saftiDelta: numberWithCommas(saftiDelta),
+    //     totalFinishedPacks: numberWithCommas(finishedPacks + saftiFinishedPacks),
+    //     totalRequiredPacks: numberWithCommas(currentRequiredPacks * 2),
+    //     totalDelta: numberWithCommas(delta + saftiDelta)
+    //   };
+    // }
   },
   data() {
     return {

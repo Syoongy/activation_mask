@@ -35,15 +35,15 @@ export default {
       required: true
     },
     delta: {
-      type: Number,
+      type: String,
       required: true
     },
     finishedPacks: {
-      type: Number,
+      type: String,
       required: true
     },
     requiredPacks: {
-      type: Number,
+      type: String,
       required: true
     }
   },
