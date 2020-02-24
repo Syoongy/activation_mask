@@ -58,6 +58,7 @@
         </button>
       </div>
     </div>
+    <FinishedLogs />
     <div class="modal" :class="{ 'is-active': modalIsActive }">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -80,11 +81,15 @@
 </template>
 
 <script>
+import FinishedLogs from "@/components/FinishedLogs.vue";
 import ky from "ky";
 import getCurrentShift from "@/plugins/getCurrentShift";
 
 export default {
   name: "FinishedForm",
+  components: {
+    FinishedLogs
+  },
   computed: {
     canSubmit() {
       return this.qty >= 1 && this.qty <= 50;
