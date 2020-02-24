@@ -12,26 +12,11 @@
 <script>
 import ky from "ky";
 export default {
-  sockets: {
-    lastFewFinishedValues(val) {
-      this.logs = val;
+  props: {
+    logs: {
+      type: Array,
+      required: true
     }
-  },
-  data() {
-    return {
-      logs: []
-    };
-  },
-  methods: {
-    changeList() {
-      this.logs = [];
-    }
-  },
-  async mounted() {
-    const res = await ky
-      .get("http://54.169.249.3:8080/getLastFewFinished")
-      .json();
-    this.logs = res;
   }
 };
 </script>

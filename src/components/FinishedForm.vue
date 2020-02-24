@@ -58,7 +58,7 @@
         </button>
       </div>
     </div>
-    <FinishedLogs />
+    <FinishedLogs :logs="logs" />
     <div class="modal" :class="{ 'is-active': modalIsActive }">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -90,6 +90,11 @@ export default {
   components: {
     FinishedLogs
   },
+  sockets: {
+    lastFewFinishedValues(val) {
+      this.logs = val;
+    }
+  },
   computed: {
     canSubmit() {
       return this.qty >= 1 && this.qty <= 50;
@@ -107,11 +112,17 @@ export default {
       qty: 1,
       isNameCorrect: true,
       isQtyCorrect: true,
-      modalIsActive: false
+      modalIsActive: false,
+      logs: []
     };
   },
-  mounted() {
+  async mounted() {
     this.session = getCurrentShift();
+
+    const res = await ky
+      .get("http://54.169.249.3:8080/getLastFewFinished")
+      .json();
+    this.logs = res;
   },
   methods: {
     toggleModal() {
@@ -134,6 +145,10 @@ export default {
         })
         .json();
       this.$socket.client.emit("addToStationNo", this.name);
+      const logRes = await ky
+        .get("http://54.169.249.3:8080/getLastFewFinished")
+        .json();
+      this.logs = logRes;
       this.sAlpha = "A";
       this.sNum = "1";
       this.session = getCurrentShift();
