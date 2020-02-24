@@ -83,18 +83,20 @@ export default {
   data() {
     return {
       bar: null,
-      boxTarget: 756,
+      boxTarget: 840,
       boxCompleted: 0
     };
   },
   async mounted() {
-    const res = await ky
-      .get("http://54.169.249.3:8080/getTotalFinished")
-      .json();
+    let res = await ky.get("http://54.169.249.3:8080/getTotalFinished").json();
     const currShift = getCurrentShift();
-    if (currShift % 2 === 0) console.log(currShift);
+    //If even then = (afternoon shift)
+    if (currShift % 2 === 0) this.boxTarget = 756;
     this.boxCompleted = res.totalQuantity;
-    this.boxCompleted -= 719;
+
+    res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    const prevQty = this.getPrevShiftQty(res, currShift);
+    this.boxCompleted -= prevQty;
     /* construct manually */
     this.bar = new ldBar("#progressBar", {
       type: "fill",
@@ -106,7 +108,17 @@ export default {
     });
     this.bar.set(this.progress);
   },
-  methods: {}
+  methods: {
+    getPrevShiftQty(allFinished, currShift) {
+      let prevQty = 0;
+      for (const shiftItem of allFinished) {
+        const stationNameSplit = shiftItem.stationNo.split("-");
+        const isPrevShift = stationNameSplit[0] !== currShift;
+        if (isPrevShift) prevQty += shiftItem.quantity;
+      }
+      return prevQty;
+    }
+  }
 };
 </script>
 
