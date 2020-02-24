@@ -134,7 +134,7 @@ export default {
         if (currentHour >= opStartHour) {
           if (currentHour < 8) {
             numHoursInCompletedHours = 0;
-          } else if (currentHour <= 15) {
+          } else if (currentHour < 15) {
             numHoursInCompletedHours = currentHour - 8;
 
             numHoursInCompletedMinutes = currentMinute / 60;
