@@ -39,7 +39,7 @@ const routes = [
       import(/* webpackChunkName: "home" */ "../views/statistics/Quantity")
   },
   {
-    path: "/opsCombined",
+    path: "/opsCombined20",
     name: "combined",
     component: () =>
       import(/* webpackChunkName: "home" */ "../views/statistics/Combined")
