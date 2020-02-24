@@ -128,8 +128,6 @@ export default {
       const currentMinute = this.currentDateObj.getMinutes();
       const currentSecond = this.currentDateObj.getSeconds();
 
-      console.log(currentHour)
-
       if (currentDate >= opStartDate) {
         numHoursInCompletedDays =
           (currentDate - opStartDate) * this.workHoursPerDay;
@@ -142,7 +140,6 @@ export default {
             numHoursInCompletedMinutes = currentMinute / 60;
             numHoursInCompletedSeconds = currentSecond / 3600;
           } else if (currentHour == 15) {
-            console.log("Now")
             numHoursInCompletedHours = 7;
           } else if (currentHour <= 22) {
             // Account for the 1 hour break
