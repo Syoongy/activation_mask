@@ -30,6 +30,10 @@
   border-radius: 4px;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 .custom-notification .my-success {
 }
 </style>
