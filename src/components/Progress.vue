@@ -72,6 +72,7 @@ export default {
   sockets: {
     totalFinishedValues(val) {
       this.boxCompleted = val.totalQuantity;
+      this.boxCompleted -= this.prevQty;
       this.bar.set(this.progress);
     }
   },
@@ -84,7 +85,8 @@ export default {
     return {
       bar: null,
       boxTarget: 840,
-      boxCompleted: 0
+      boxCompleted: 0,
+      prevQty: 0
     };
   },
   async mounted() {
@@ -95,8 +97,8 @@ export default {
     this.boxCompleted = res.totalQuantity;
 
     res = await ky.get("http://54.169.249.3:8080/getFinished").json();
-    const prevQty = this.getPrevShiftQty(res, currShift);
-    this.boxCompleted -= prevQty;
+    this.prevQty = this.getPrevShiftQty(res, currShift);
+    this.boxCompleted -= this.prevQty;
     /* construct manually */
     this.bar = new ldBar("#progressBar", {
       type: "fill",
