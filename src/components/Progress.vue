@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       bar: null,
-      boxTarget: 840,
+      boxTarget: 756,
       boxCompleted: 0
     };
   },
@@ -91,6 +91,7 @@ export default {
       .get("http://54.254.221.3:8080/getTotalFinished")
       .json();
     this.boxCompleted = res.totalQuantity;
+    this.boxCompleted -= 516;
     /* construct manually */
     this.bar = new ldBar("#progressBar", {
       type: "fill",
