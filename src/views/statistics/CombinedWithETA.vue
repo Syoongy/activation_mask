@@ -220,12 +220,6 @@ export default {
       let saftiHoursAtFinish = elapsedHours + saftiETA;
       let totalHoursAtFinish = elapsedHours + totalETA;
 
-      console.log(plcHoursAtFinish)
-      console.log(elapsedHours)
-      console.log(plcETA)
-      console.log(plcRemaining)
-      console.log(plcHourlyProduction)
-
       function getTimeStringAtFinish(hoursAtFinish) {
         let daysAtFinish = Math.floor(hoursAtFinish / 13);
         let h = hoursAtFinish % 13

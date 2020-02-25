@@ -17,7 +17,7 @@
         {{ deltaSAFTI }}
       </p>
       <p class="is-size-4" :class="classObject">
-        {{ producedPLC }} / {{ targetPLC }}
+        {{ producedSAFTI }} / {{ targetSAFTI }}
       </p>
     </div>
   </div>
