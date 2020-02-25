@@ -98,11 +98,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .qty-container {
-  margin: 1rem !important;
+  margin: 0 !important;
 }
 .qty-container .box.column {
   margin: 0.75rem !important;
+}
+.title {
+  margin-top: -0.5rem !important;
+  margin-bottom: -0.5rem !important;
 }
 </style>

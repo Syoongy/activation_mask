@@ -17,7 +17,7 @@
         {{ deltaSAFTI }}
       </p>
       <p class="is-size-4" :class="classObject">
-        {{ producedSAFTI }} / {{ targetSAFTI }}
+        {{ producedSAFTI }} // {{ targetSAFTI }}
       </p>
     </div>
   </div>
@@ -91,11 +91,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .qty-container {
-  margin: 1rem !important;
+  margin: 0 !important;
 }
-.qty-container .box.column {
+.box.column {
   margin: 0.75rem !important;
 }
 </style>

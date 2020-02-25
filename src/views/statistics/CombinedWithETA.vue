@@ -412,7 +412,7 @@ export default {
 }
 
 .box-spacing {
-  margin-bottom: 1rem !important;
+  margin-bottom: 0.3rem !important;
   width: 100%;
 }
 </style>

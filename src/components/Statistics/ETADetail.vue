@@ -83,11 +83,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .qty-container {
-  margin: 1rem !important;
+  margin: 0 !important;
 }
-.qty-container .box.column {
+.box.column {
+  margin-bottom: 0 !important;
   margin: 0.75rem !important;
 }
 </style>
