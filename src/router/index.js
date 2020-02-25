@@ -40,9 +40,15 @@ const routes = [
   },
   {
     path: "/opsCombined20",
-    name: "combined",
+    name: "opsCombined20",
     component: () =>
       import(/* webpackChunkName: "home" */ "../views/statistics/Combined")
+  },
+  {
+    path: "/opsCombinedETA20",
+    name: "opsCombinedETA20",
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/statistics/CombinedWithETA")
   },
   {
     path: "/statistics/combinedHall",
