@@ -76,7 +76,7 @@ export default {
       for (let i = 0; i < 5; i++) {
         wolvesTotal += this.alphaList[i].total;
       }
-      for (let i = 5; i < 10; i++) {
+      for (let i = 5; i < 11; i++) {
         bearsTotal += this.alphaList[i].total;
       }
       return { wolvesTotal: wolvesTotal, bearsTotal: bearsTotal };
