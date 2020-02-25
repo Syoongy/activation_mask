@@ -63,6 +63,7 @@ c0.59-0.63,1.38-0.94,2.37-0.94h20.33c0.9,0,1.67,0.31,2.3,0.94C474.56,2.91,474.88
 <script>
 import TotalCount from "./TotalCount";
 import ldBar from "@loadingio/loading-bar";
+import getCurrentShift from "@/plugins/getCurrentShift";
 import ky from "ky";
 export default {
   components: {
@@ -71,6 +72,7 @@ export default {
   sockets: {
     totalFinishedValues(val) {
       this.boxCompleted = val.totalQuantity;
+      this.boxCompleted -= this.prevQty;
       this.bar.set(this.progress);
     }
   },
@@ -83,14 +85,19 @@ export default {
     return {
       bar: null,
       boxTarget: 840,
-      boxCompleted: 0
+      boxCompleted: 0,
+      prevQty: 0
     };
   },
   async mounted() {
-    const res = await ky
-      .get("http://54.254.221.3:8080/getTotalFinished")
-      .json();
+    let res = await ky.get("http://54.254.221.3:8080/getTotalFinished").json();
+    const currShift = getCurrentShift();
+    //If even then = (afternoon shift)
+    if (currShift % 2 === 0) this.boxTarget = 756;
     this.boxCompleted = res.totalQuantity;
+    res = await ky.get("http://54.254.221.3:8080/getFinished").json();
+    this.prevQty = this.getPrevShiftQty(res, currShift);
+    this.boxCompleted -= this.prevQty;
     /* construct manually */
     this.bar = new ldBar("#progressBar", {
       type: "fill",
@@ -102,7 +109,17 @@ export default {
     });
     this.bar.set(this.progress);
   },
-  methods: {}
+  methods: {
+    getPrevShiftQty(allFinished, currShift) {
+      let prevQty = 0;
+      for (const shiftItem of allFinished) {
+        const stationNameSplit = shiftItem.stationNo.split("-");
+        const isPrevShift = stationNameSplit[0] !== currShift;
+        if (isPrevShift) prevQty += shiftItem.quantity;
+      }
+      return prevQty;
+    }
+  }
 };
 </script>
 

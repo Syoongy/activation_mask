@@ -76,6 +76,7 @@ export default {
 </script>
 <style scoped>
 .section {
+  min-height: 100vh;
   background-color: #212121 !important;
 }
 </style>
