@@ -58,7 +58,7 @@ export default {
       //   // "has-text-danger": this.title !== "Received"
       //   // "has-text-warning"
       // };
-      return "has-text-success";
+      return "has-text-white";
     },
     rawMaterials(){
       // From: https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript

@@ -198,9 +198,9 @@ export default {
       // ETA CALCULATION
       const totalTarget = 1600000
 
-      let plcHourlyProduction = (783 * 200) / 7;
-      let saftiHourlyProduction = (798 * 200) / 7;
-      let totalHourlyProduction = plcHourlyProduction + saftiHourlyProduction;
+      let plcHourlyProduction = 21840;
+      let saftiHourlyProduction = 21840;
+      let totalHourlyProduction = 21840 + 21840;
 
       let plcRemaining = (totalTarget / 2) - finishedPacks;
       let saftiRemaining = (totalTarget / 2) - saftiFinishedPacks;
