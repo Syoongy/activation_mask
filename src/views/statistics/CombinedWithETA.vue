@@ -196,7 +196,7 @@ export default {
 
 
       // ETA CALCULATION
-      const totalTarget = 1600000
+      const totalTarget = 1596800
 
       let plcHourlyProduction = 21840;
       let saftiHourlyProduction = 21840;
@@ -232,7 +232,7 @@ export default {
         }
         let m = Math.floor(((h % 1) * 60));
 
-        h = Math.round(h);
+        h = Math.floor(h);
 
         let dayName = "";
 
