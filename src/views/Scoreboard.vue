@@ -95,7 +95,8 @@ export default {
         { letter: "G", total: 0 },
         { letter: "H", total: 0 },
         { letter: "I", total: 0 },
-        { letter: "J", total: 0 }
+        { letter: "J", total: 0 },
+        { letter: "K", total: 0 }
       ],
       nextPageTimeout: null
     };
@@ -180,6 +181,9 @@ export default {
           break;
         case "J":
           styling = "bear";
+          break;
+        case "K":
+          styling = "bear-alternate";
           break;
         default:
           break;

@@ -58,6 +58,9 @@ export default {
           case "J":
             styling = "bear";
             break;
+          case "K":
+            styling = "bear-alternate";
+            break;
           default:
             break;
         }
