@@ -61,7 +61,8 @@ export default {
         { letter: "C", total: 0 },
         { letter: "D", total: 0 },
         { letter: "E", total: 0 },
-        { letter: "F", total: 0 }
+        { letter: "F", total: 0 },
+        { letter: "G", total: 0 }
       ],
       nextPageTimeout: null
     };
@@ -99,9 +100,9 @@ export default {
       }
       this.stations.push(listToBePushed);
     }
-    this.nextPageTimeout = setTimeout(() => {
-      this.$router.push("/statistics/combinedHall");
-    }, 60000);
+    // this.nextPageTimeout = setTimeout(() => {
+    //   this.$router.push("/statistics/combinedHall");
+    // }, 60000);
   },
   beforeDestroy() {
     this.nextPageTimeout = null;
