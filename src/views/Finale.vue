@@ -23,7 +23,7 @@ export default {
 }
 
 #finale-container {
-  height: 100%;
+  height: 80vh;
   justify-content: center;
   align-items: center;
 }
