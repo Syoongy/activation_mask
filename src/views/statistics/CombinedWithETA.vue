@@ -293,6 +293,15 @@ export default {
       let saftiTimeString = getTimeStringAtFinish(saftiHoursAtFinish);
       let totalTimeString = getTimeStringAtFinish(totalHoursAtFinish);
 
+
+      // Set Max
+      if (currentRequiredPacks > plcTarget) {
+        currentRequiredPacks = plcTarget;
+      }
+      if (saftiCurrentRequiredPacks > saftiTarget) {
+        saftiCurrentRequiredPacks = saftiTarget;
+      }
+
       return {
         finishedPacks: numberWithCommas(finishedPacks),
         saftiFinishedPacks: numberWithCommas(saftiFinishedPacks),
