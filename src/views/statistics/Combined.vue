@@ -20,7 +20,7 @@
           title="Delta (SAFTI)"
           :delta="currentRequirement.saftiDelta"
           :finishedPacks="currentRequirement.saftiFinishedPacks"
-          :requiredPacks="currentRequirement.currentRequiredPacks"
+          :requiredPacks="currentRequirement.saftiCurrentRequiredPacks"
         />
       </div>
 
@@ -162,15 +162,18 @@ export default {
       const currentRequiredPacks = Math.round(
         elapsedHours * this.targetPacksPerHour
       );
+      let saftiCurrentRequiredPacks = currentRequiredPacks - (26 * 200)
+
 
       const delta = finishedPacks - currentRequiredPacks;
-      const saftiDelta = saftiFinishedPacks - currentRequiredPacks;
+      const saftiDelta = saftiFinishedPacks - saftiCurrentRequiredPacks;
 
       //
       return {
         finishedPacks: numberWithCommas(finishedPacks),
         saftiFinishedPacks: numberWithCommas(saftiFinishedPacks),
         currentRequiredPacks: numberWithCommas(currentRequiredPacks),
+        saftiCurrentRequiredPacks: numberWithCommas(saftiCurrentRequiredPacks),
         delta: numberWithCommas(delta),
         saftiDelta: numberWithCommas(saftiDelta),
         totalFinishedPacks: numberWithCommas(
