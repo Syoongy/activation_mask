@@ -63,6 +63,11 @@ const routes = [
     name: "scoreboard",
     component: () =>
       import(/* webpackChunkName: "home" */ "../views/Scoreboard")
+  },
+  {
+    path: "/finale",
+    name: "finale",
+    component: () => import(/* webpackChunkName: "home" */ "../views/Finale")
   }
 ];
 

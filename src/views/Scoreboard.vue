@@ -100,9 +100,9 @@ export default {
       }
       this.stations.push(listToBePushed);
     }
-    // this.nextPageTimeout = setTimeout(() => {
-    //   this.$router.push("/statistics/combinedHall");
-    // }, 60000);
+    this.nextPageTimeout = setTimeout(() => {
+      this.$router.push("/statistics/combinedHall");
+    }, 60000);
   },
   beforeDestroy() {
     this.nextPageTimeout = null;
