@@ -22,7 +22,7 @@
           :targetPLC="currentRequirement.currentRequiredPacks"
           :deltaSAFTI="currentRequirement.saftiDelta"
           :producedSAFTI="currentRequirement.saftiFinishedPacks"
-          :targetSAFTI="currentRequirement.currentRequiredPacks"
+          :targetSAFTI="currentRequirement.saftiCurrentRequiredPacks"
         />
         <ETADetail
           titlePLC="ETA (PLC)"
@@ -190,20 +190,23 @@ export default {
       const currentRequiredPacks = Math.round(
         elapsedHours * this.targetPacksPerHour
       );
+      let saftiCurrentRequiredPacks = currentRequiredPacks - (26 * 200)
 
       const delta = finishedPacks - currentRequiredPacks;
-      const saftiDelta = saftiFinishedPacks - currentRequiredPacks;
-
+      const saftiDelta = saftiFinishedPacks - saftiCurrentRequiredPacks;
 
       // ETA CALCULATION
-      const totalTarget = 1596800
+      // const totalTarget = 1596800
+      const plcTarget = 1596800 / 2;
+      const saftiTarget = (1596800 / 2) - (26 * 200);
+      const totalTarget = plcTarget + saftiTarget;
 
       let plcHourlyProduction = 21840;
       let saftiHourlyProduction = 21840;
       let totalHourlyProduction = 21840 + 21840;
 
-      let plcRemaining = (totalTarget / 2) - finishedPacks;
-      let saftiRemaining = (totalTarget / 2) - saftiFinishedPacks;
+      let plcRemaining = plcTarget - finishedPacks;
+      let saftiRemaining = saftiTarget - saftiFinishedPacks;
       let totalRemaining = totalTarget - (finishedPacks + saftiFinishedPacks);
 
       let plcETA = (plcRemaining / plcHourlyProduction);
@@ -286,12 +289,13 @@ export default {
         finishedPacks: numberWithCommas(finishedPacks),
         saftiFinishedPacks: numberWithCommas(saftiFinishedPacks),
         currentRequiredPacks: numberWithCommas(currentRequiredPacks),
+        saftiCurrentRequiredPacks: numberWithCommas(saftiCurrentRequiredPacks),
         delta: numberWithCommas(delta),
         saftiDelta: numberWithCommas(saftiDelta),
         totalFinishedPacks: numberWithCommas(
           finishedPacks + saftiFinishedPacks
         ),
-        totalRequiredPacks: numberWithCommas(currentRequiredPacks * 2),
+        totalRequiredPacks: numberWithCommas(currentRequiredPacks + saftiCurrentRequiredPacks),
         totalDelta: numberWithCommas(delta + saftiDelta),
         plcETA: plcETA.toFixed(1),
         saftiETA: saftiETA.toFixed(1),
