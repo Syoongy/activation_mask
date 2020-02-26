@@ -168,7 +168,20 @@ export default {
       const delta = finishedPacks - currentRequiredPacks;
       const saftiDelta = saftiFinishedPacks - saftiCurrentRequiredPacks;
 
-      //
+      // ETA CALCULATION
+      // const totalTarget = 1596800
+      const plcTarget = 1596800 / 2;
+      const saftiTarget = (1596800 / 2) - (26 * 200);
+      const totalTarget = plcTarget + saftiTarget;
+
+      // Set Max
+      if (currentRequiredPacks > plcTarget) {
+        currentRequiredPacks = plcTarget;
+      }
+      if (saftiCurrentRequiredPacks > saftiTarget) {
+        saftiCurrentRequiredPacks = saftiTarget;
+      }
+
       return {
         finishedPacks: numberWithCommas(finishedPacks),
         saftiFinishedPacks: numberWithCommas(saftiFinishedPacks),
