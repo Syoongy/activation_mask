@@ -142,53 +142,61 @@ export default {
       const finishedPacks = this.finishedBoxes * this.packsPerBox;
       const saftiFinishedPacks = this.saftiFinishedBoxes * this.packsPerBox;
 
-      let elapsedHours = 0.0,
-        numHoursInCompletedDays = 0.0,
-        numHoursInCompletedHours = 0.0,
-        numHoursInCompletedMinutes = 0.0,
-        numHoursInCompletedSeconds = 0.0;
-      const opStartDate = 24;
-      const opStartHour = 8;
-      const opStartMinute = 0;
+      function calculateElapsedHours(dateObj, workHoursPerDay) {
+        let elapsedHours = 0.0,
+          numHoursInCompletedDays = 0.0,
+          numHoursInCompletedHours = 0.0,
+          numHoursInCompletedMinutes = 0.0,
+          numHoursInCompletedSeconds = 0.0;
+        const opStartDate = 24;
+        const opStartHour = 8;
+        const opStartMinute = 0;
 
-      const currentDate = this.currentDateObj.getDate();
-      const currentHour = this.currentDateObj.getHours();
-      const currentMinute = this.currentDateObj.getMinutes();
-      const currentSecond = this.currentDateObj.getSeconds();
+        const currentDate = dateObj.getDate();
+        const currentHour = dateObj.getHours();
+        const currentMinute = dateObj.getMinutes();
+        const currentSecond = dateObj.getSeconds();
 
-      if (currentDate >= opStartDate) {
-        numHoursInCompletedDays =
-          (currentDate - opStartDate) * this.workHoursPerDay;
-        if (currentHour >= opStartHour) {
-          if (currentHour < 8) {
-            numHoursInCompletedHours = 0;
-          } else if (currentHour < 15) {
-            numHoursInCompletedHours = currentHour - 8;
+        if (currentDate >= opStartDate) {
+          numHoursInCompletedDays =
+            (currentDate - opStartDate) * workHoursPerDay;
+          if (currentHour >= opStartHour) {
+            if (currentHour < 8) {
+              numHoursInCompletedHours = 0;
+            } else if (currentHour < 15) {
+              numHoursInCompletedHours = currentHour - 8;
 
-            numHoursInCompletedMinutes = currentMinute / 60;
-            numHoursInCompletedSeconds = currentSecond / 3600;
-          } else if (currentHour == 15) {
-            numHoursInCompletedHours = 7;
-          } else if (currentHour < 22) {
-            // Account for the 1 hour break
-            numHoursInCompletedHours = currentHour - 8 - 1;
+              numHoursInCompletedMinutes = currentMinute / 60;
+              numHoursInCompletedSeconds = currentSecond / 3600;
+            } else if (currentHour == 15) {
+              numHoursInCompletedHours = 7;
+            } else if (currentHour < 22) {
+              // Account for the 1 hour break
+              numHoursInCompletedHours = currentHour - 8 - 1;
 
-            numHoursInCompletedMinutes = currentMinute / 60;
-            numHoursInCompletedSeconds = currentSecond / 3600;
-          } else {
-            numHoursInCompletedHours = 13;
+              numHoursInCompletedMinutes = currentMinute / 60;
+              numHoursInCompletedSeconds = currentSecond / 3600;
+            } else {
+              numHoursInCompletedHours = 13;
+            }
           }
         }
+
+        elapsedHours =
+          numHoursInCompletedDays +
+          numHoursInCompletedHours +
+          numHoursInCompletedMinutes +
+          numHoursInCompletedSeconds;
+
+        return elapsedHours;
       }
 
-      elapsedHours =
-        numHoursInCompletedDays +
-        numHoursInCompletedHours +
-        numHoursInCompletedMinutes +
-        numHoursInCompletedSeconds;
+      let elapsedHours15Min = calculateElapsedHours(this.currentDateObj, this.workHoursPerDay);
+      let elapsedHours1Min = calculateElapsedHours(this.currentDateByMinuteObj, this.workHoursPerDay);
+
 
       const currentRequiredPacks = Math.round(
-        elapsedHours * this.targetPacksPerHour
+        elapsedHours15Min * this.targetPacksPerHour
       );
       let saftiCurrentRequiredPacks = currentRequiredPacks - (26 * 200)
 
@@ -219,9 +227,9 @@ export default {
         totalETA = saftiETA;
       }
 
-      let plcHoursAtFinish = elapsedHours + plcETA;
-      let saftiHoursAtFinish = elapsedHours + saftiETA;
-      let totalHoursAtFinish = elapsedHours + totalETA;
+      let plcHoursAtFinish = elapsedHours1Min + plcETA;
+      let saftiHoursAtFinish = elapsedHours1Min + saftiETA;
+      let totalHoursAtFinish = elapsedHours1Min + totalETA;
 
       function getTimeStringAtFinish(hoursAtFinish) {
         let daysAtFinish = Math.floor(hoursAtFinish / 13);
@@ -334,7 +342,9 @@ export default {
       finishedBoxes: 0,
       saftiFinishedBoxes: 0,
       currentDateObj: new Date(),
+      currentDateByMinuteObj: new Date(),
       myInterval: null,
+      oneMinuteInterval: null,
       saftiSocket: null
     };
   },
@@ -389,9 +399,14 @@ export default {
     this.myInterval = setInterval(() => {
       this.currentDateObj = new Date();
     }, 900000);
+
+    this.oneMinuteInterval = setInterval(() => {
+      this.currentDateByMinuteObj = new Date();
+    }, 60000);
   },
   beforeDestroy() {
     this.myInterval == null;
+    this.oneMinuteInterval == null;
   }
 };
 </script>
