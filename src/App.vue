@@ -24,7 +24,7 @@
   overflow: hidden;
 } */
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .custom-notification {

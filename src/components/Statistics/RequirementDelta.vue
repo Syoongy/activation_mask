@@ -32,26 +32,26 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     delta: {
       type: String,
-      required: true
+      required: true,
     },
     finishedPacks: {
       type: String,
-      required: true
+      required: true,
     },
     requiredPacks: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   sockets: {
     shippedValues(val) {
       this.shipped = val[0].totalBoxes;
-    }
-  }
+    },
+  },
 };
 </script>
 

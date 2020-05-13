@@ -6,9 +6,9 @@ import VueSocketIOExt from "vue-socket.io-extended";
 import io from "socket.io-client";
 
 // PLC IP
-const socket = io("http://54.169.249.3:8080");
+const socket = io("PLC_API_ADDRESS");
 // SAFTI IP
-// const socket1 = io("http://54.254.221.3:8080");
+// const socket1 = io("SAFTI_API_ADDRESS");
 Vue.use(VueSocketIOExt, socket);
 // Vue.use(VueSocketIOExt, socket1);
 Vue.use(Notifications);
@@ -17,5 +17,5 @@ import "@/assets/bulma.min.css";
 
 new Vue({
   router,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

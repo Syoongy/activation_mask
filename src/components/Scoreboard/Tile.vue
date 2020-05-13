@@ -20,8 +20,8 @@ export default {
   props: {
     station: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     classObject() {
@@ -56,8 +56,8 @@ export default {
         styling = "has-background-grey has-text-white";
       }
       return styling;
-    }
-  }
+    },
+  },
 };
 </script>
 

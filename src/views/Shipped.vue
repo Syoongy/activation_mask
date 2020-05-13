@@ -12,7 +12,7 @@ import ShippedForm from "@/components/ShippedForm.vue";
 export default {
   name: "shipped",
   components: {
-    ShippedForm
-  }
+    ShippedForm,
+  },
 };
 </script>

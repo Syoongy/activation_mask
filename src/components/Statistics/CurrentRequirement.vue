@@ -29,18 +29,18 @@ export default {
   props: {
     finishedPacks: {
       type: Number,
-      required: true
+      required: true,
     },
     currentRequiredPacks: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   sockets: {
     shippedValues(val) {
       this.shipped = val[0].totalBoxes;
-    }
-  }
+    },
+  },
 };
 </script>
 

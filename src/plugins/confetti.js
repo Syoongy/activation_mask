@@ -12,10 +12,10 @@ var confetti = {
   togglePause: null, //call to toggle whether the confetti animation is paused
   remove: null, //call to stop the confetti animation and remove all confetti immediately
   isPaused: null, //call and returns true or false depending on whether the confetti animation is paused
-  isRunning: null //call and returns true or false depending on whether the animation is running
+  isRunning: null, //call and returns true or false depending on whether the animation is running
 };
 
-(function() {
+(function () {
   confetti.start = startConfetti;
   confetti.stop = stopConfetti;
   confetti.toggle = toggleConfetti;
@@ -43,7 +43,7 @@ var confetti = {
     "rgba(70,130,180,",
     "rgba(244,164,96,",
     "rgba(210,105,30,",
-    "rgba(220,20,60,"
+    "rgba(220,20,60,",
   ];
   var streamingConfetti = false;
   var animationTimer = null;
@@ -106,14 +106,14 @@ var confetti = {
   function startConfetti(timeout, min, max) {
     var width = window.innerWidth;
     var height = window.innerHeight;
-    window.requestAnimationFrame = (function() {
+    window.requestAnimationFrame = (function () {
       return (
         window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
-        function(callback) {
+        function (callback) {
           return window.setTimeout(callback, confetti.frameInterval);
         }
       );
@@ -131,7 +131,7 @@ var confetti = {
       canvas.height = height;
       window.addEventListener(
         "resize",
-        function() {
+        function () {
           canvas.width = window.innerWidth;
           canvas.height = window.innerHeight;
         },

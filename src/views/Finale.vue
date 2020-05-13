@@ -10,8 +10,8 @@
 import FinaleCounter from "@/components/FinaleCounter";
 export default {
   components: {
-    FinaleCounter
-  }
+    FinaleCounter,
+  },
 };
 </script>
 

@@ -43,28 +43,28 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     masksRemaining: {
       type: Number,
-      required: true
+      required: true,
     },
     masksTotal: {
       type: Number,
-      required: true
+      required: true,
     },
     ziplocsRemaining: {
       type: Number,
-      required: true
+      required: true,
     },
     ziplocsTotal: {
       type: Number,
-      required: true
+      required: true,
     },
     targetPacksPerHour: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     classObject() {
@@ -75,26 +75,26 @@ export default {
       // };
       return "has-text-success";
     },
-    rawMaterials(){
+    rawMaterials() {
       // From: https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
       function numberWithCommas(x) {
-          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
 
       return {
         masksRemaining: numberWithCommas(this.masksRemaining),
         masksTotal: numberWithCommas(this.masksTotal),
         ziplocsRemaining: numberWithCommas(this.ziplocsRemaining),
-        ziplocsTotal: numberWithCommas(this.ziplocsTotal)
-      }
+        ziplocsTotal: numberWithCommas(this.ziplocsTotal),
+      };
     },
     masksTimeRemaining() {
       return (this.masksRemaining / (this.targetPacksPerHour * 4)).toFixed(1);
     },
     ziplocsTimeRemaining() {
       return (this.ziplocsRemaining / this.targetPacksPerHour).toFixed(1);
-    }
-  }
+    },
+  },
 };
 </script>
 

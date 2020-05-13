@@ -21,7 +21,7 @@
       <p class="has-text-weight-bold is-size-2">{{ titletwo }}</p>
       <p class="has-text-weight-bold is-size-1">{{ eta }} HOURS</p>
       <p class="has-text-weight-bold is-size-2">
-        {{totalTimeString}}
+        {{ totalTimeString }}
       </p>
     </div>
     <!-- <div
@@ -44,38 +44,38 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     titletwo: {
       type: String,
-      required: true
+      required: true,
     },
     delta: {
       type: String,
-      required: true
+      required: true,
     },
     finishedPacks: {
       type: String,
-      required: true
+      required: true,
     },
     requiredPacks: {
       type: String,
-      required: true
+      required: true,
     },
     eta: {
       type: String,
-      required: true
+      required: true,
     },
     totalTimeString: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   sockets: {
     shippedValues(val) {
       this.shipped = val[0].totalBoxes;
-    }
-  }
+    },
+  },
 };
 </script>
 

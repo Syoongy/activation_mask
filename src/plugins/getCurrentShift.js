@@ -1,4 +1,4 @@
-export default function() {
+export default function () {
   const d = new Date();
   let session = "";
   let currentDate = d.getDate();

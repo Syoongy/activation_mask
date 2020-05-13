@@ -12,7 +12,7 @@ import ReceivedForm from "@/components/ReceivedForm.vue";
 export default {
   name: "Received",
   components: {
-    ReceivedForm
-  }
+    ReceivedForm,
+  },
 };
 </script>

@@ -27,15 +27,15 @@ export default {
   props: {
     stations: {
       type: Array,
-      required: true
+      required: true,
     },
     currentShift: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
-    LeaderboardTile
+    LeaderboardTile,
   },
   computed: {
     sortedStations() {
@@ -54,7 +54,7 @@ export default {
       } else {
         return 20;
       }
-    }
+    },
     // computedStations() {
     //   const retStations = this.stations;
     //   for (const station of retStations) {
@@ -65,7 +65,7 @@ export default {
     //   }
     //   return retStations;
     // }
-  }
+  },
 };
 </script>
 

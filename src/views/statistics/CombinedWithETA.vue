@@ -94,7 +94,7 @@ export default {
     RequirementDeltaETA,
     RawMaterials,
     DeltaDetail,
-    ETADetail
+    ETADetail,
   },
   sockets: {
     receivedValues(val) {
@@ -110,7 +110,7 @@ export default {
         newFinishedBoxesValues += section.quantity;
       }
       this.finishedBoxes = newFinishedBoxesValues;
-    }
+    },
   },
   computed: {
     remainingItems() {
@@ -191,14 +191,19 @@ export default {
         return elapsedHours;
       }
 
-      let elapsedHours15Min = calculateElapsedHours(this.currentDateObj, this.workHoursPerDay);
-      let elapsedHours1Min = calculateElapsedHours(this.currentDateByMinuteObj, this.workHoursPerDay);
-
+      let elapsedHours15Min = calculateElapsedHours(
+        this.currentDateObj,
+        this.workHoursPerDay
+      );
+      let elapsedHours1Min = calculateElapsedHours(
+        this.currentDateByMinuteObj,
+        this.workHoursPerDay
+      );
 
       const currentRequiredPacks = Math.round(
         elapsedHours15Min * this.targetPacksPerHour
       );
-      let saftiCurrentRequiredPacks = currentRequiredPacks - (26 * 200)
+      let saftiCurrentRequiredPacks = currentRequiredPacks - 26 * 200;
 
       const delta = finishedPacks - currentRequiredPacks;
       const saftiDelta = saftiFinishedPacks - saftiCurrentRequiredPacks;
@@ -206,7 +211,7 @@ export default {
       // ETA CALCULATION
       // const totalTarget = 1596800
       const plcTarget = 1596800 / 2;
-      const saftiTarget = (1596800 / 2) - (26 * 200);
+      const saftiTarget = 1596800 / 2 - 26 * 200;
       const totalTarget = plcTarget + saftiTarget;
 
       let plcHourlyProduction = 21840;
@@ -217,9 +222,9 @@ export default {
       let saftiRemaining = saftiTarget - saftiFinishedPacks;
       let totalRemaining = totalTarget - (finishedPacks + saftiFinishedPacks);
 
-      let plcETA = (plcRemaining / plcHourlyProduction);
-      let saftiETA = (saftiRemaining / saftiHourlyProduction);
-      let totalETA = (totalRemaining / totalHourlyProduction);
+      let plcETA = plcRemaining / plcHourlyProduction;
+      let saftiETA = saftiRemaining / saftiHourlyProduction;
+      let totalETA = totalRemaining / totalHourlyProduction;
 
       if (plcETA >= saftiETA) {
         totalETA = plcETA;
@@ -233,38 +238,38 @@ export default {
 
       function getTimeStringAtFinish(hoursAtFinish) {
         let daysAtFinish = Math.floor(hoursAtFinish / 13);
-        let h = hoursAtFinish % 13
-        if ( h < 7 ){
+        let h = hoursAtFinish % 13;
+        if (h < 7) {
           h += 8;
         } else {
           // Account for the 1 hour break
           h += 1;
           h += 8;
         }
-        let m = Math.floor(((h % 1) * 60));
+        let m = Math.floor((h % 1) * 60);
 
         h = Math.floor(h);
 
         let dayName = "";
 
-        switch(daysAtFinish) {
+        switch (daysAtFinish) {
           case 0:
-            dayName = "Monday"
+            dayName = "Monday";
             break;
           case 1:
-            dayName = "Tuesday"
+            dayName = "Tuesday";
             break;
           case 2:
-            dayName = "Wednesday"
+            dayName = "Wednesday";
             break;
           case 3:
-            dayName = "Thursday"
+            dayName = "Thursday";
             break;
           case 4:
-            dayName = "Friday"
+            dayName = "Friday";
             break;
           default:
-            dayName = "NA"
+            dayName = "NA";
         }
 
         let hString = "";
@@ -281,18 +286,13 @@ export default {
         }
 
         return dayName + ", " + hString + mString + "hrs";
-
-
       }
-
-
 
       // console.log(elapsedHours)
       // console.log(plcHoursAtFinish)
       let plcTimeString = getTimeStringAtFinish(plcHoursAtFinish);
       let saftiTimeString = getTimeStringAtFinish(saftiHoursAtFinish);
       let totalTimeString = getTimeStringAtFinish(totalHoursAtFinish);
-
 
       // Set Max
       if (currentRequiredPacks > plcTarget) {
@@ -312,16 +312,18 @@ export default {
         totalFinishedPacks: numberWithCommas(
           finishedPacks + saftiFinishedPacks
         ),
-        totalRequiredPacks: numberWithCommas(currentRequiredPacks + saftiCurrentRequiredPacks),
+        totalRequiredPacks: numberWithCommas(
+          currentRequiredPacks + saftiCurrentRequiredPacks
+        ),
         totalDelta: numberWithCommas(delta + saftiDelta),
         plcETA: plcETA.toFixed(1),
         saftiETA: saftiETA.toFixed(1),
         totalETA: totalETA.toFixed(1),
         plcTimeString: plcTimeString,
         saftiTimeString: saftiTimeString,
-        totalTimeString: totalTimeString
+        totalTimeString: totalTimeString,
       };
-    }
+    },
     // currentRawMaterials() {
     //   return {
     //     finishedPacks: numberWithCommas(finishedPacks),
@@ -354,7 +356,7 @@ export default {
       currentDateByMinuteObj: new Date(),
       myInterval: null,
       oneMinuteInterval: null,
-      saftiSocket: null
+      saftiSocket: null,
     };
   },
   methods: {
@@ -372,35 +374,35 @@ export default {
         newFinishedBoxesValues += section.quantity;
       }
       this.saftiFinishedBoxes = newFinishedBoxesValues;
-    }
+    },
   },
   async mounted() {
     //Setup safti socket
-    this.saftiSocket = io("http://54.254.221.3:8080");
+    this.saftiSocket = io("SAFTI_API_ADDRESS");
     this.saftiSocket.on("receivedValues", this.setSaftiReceivedItems);
     this.saftiSocket.on("finishedValues", this.setSaftiFinishedBoxes);
 
     //Retrieve data
-    let res = await ky.get("http://54.169.249.3:8080/getAllReceived").json();
+    let res = await ky.get("PLC_API_ADDRESS/getAllReceived").json();
     let data = res.Item;
     this.receivedItems.mask = data.mask;
     this.receivedItems.thermometer = data.thermometer;
     this.receivedItems.sanitiser = data.handSanitiser;
     this.receivedItems.ziploc = data.ziploc;
 
-    res = await ky.get("http://54.254.221.3:8080/getAllReceived").json();
+    res = await ky.get("SAFTI_API_ADDRESS/getAllReceived").json();
     data = res.Item;
     this.saftiReceivedItems.mask = data.mask;
     this.saftiReceivedItems.thermometer = data.thermometer;
     this.saftiReceivedItems.sanitiser = data.handSanitiser;
     this.saftiReceivedItems.ziploc = data.ziploc;
 
-    res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    res = await ky.get("PLC_API_ADDRESS/getFinished").json();
     for (const section of res) {
       this.finishedBoxes += section.quantity;
     }
 
-    res = await ky.get("http://54.254.221.3:8080/getFinished").json();
+    res = await ky.get("SAFTI_API_ADDRESS/getFinished").json();
     for (const section of res) {
       this.saftiFinishedBoxes += section.quantity;
     }
@@ -416,7 +418,7 @@ export default {
   beforeDestroy() {
     this.myInterval == null;
     this.oneMinuteInterval == null;
-  }
+  },
 };
 </script>
 

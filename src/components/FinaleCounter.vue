@@ -25,23 +25,21 @@ export default {
       if (this.total >= 3992) {
         confetti.start();
       }
-    }
+    },
   },
   data() {
     return {
       total: 0,
-      isStart: false
+      isStart: false,
     };
   },
   async mounted() {
-    const res = await ky
-      .get("http://54.169.249.3:8080/getTotalFinished")
-      .json();
+    const res = await ky.get("PLC_API_ADDRESS/getTotalFinished").json();
     this.total = res.totalQuantity;
     if (this.total >= 3992) {
       confetti.start();
     }
-  }
+  },
 };
 </script>
 

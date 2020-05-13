@@ -33,33 +33,33 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     masks: {
       type: Number,
-      required: true
+      required: true,
     },
     thermometers: {
       type: Number,
-      required: true
+      required: true,
     },
     sanitisers: {
       type: Number,
-      required: true
+      required: true,
     },
     ziplocs: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     classObject() {
       return {
         "has-text-warning": this.title === "Received",
-        "has-text-danger": this.title !== "Received"
+        "has-text-danger": this.title !== "Received",
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

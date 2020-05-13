@@ -38,7 +38,7 @@ import ky from "ky";
 export default {
   components: {
     Quantity,
-    ProductTracking
+    ProductTracking,
   },
   sockets: {
     receivedValues(val) {
@@ -54,7 +54,7 @@ export default {
         newFinishedBoxesValues += section.quantity;
       }
       this.finishedBoxes = newFinishedBoxesValues;
-    }
+    },
   },
   computed: {
     remainingItems() {
@@ -66,7 +66,7 @@ export default {
         retObj.sanitiser - this.finishedBoxes * this.boxSanitiser;
       retObj.ziploc = retObj.ziploc - this.finishedBoxes * this.boxZiploc;
       return retObj;
-    }
+    },
   },
   data() {
     return {
@@ -77,23 +77,23 @@ export default {
       boxSanitiser: 0,
       boxZiploc: 400,
       shipped: 0,
-      delivered: 0
+      delivered: 0,
     };
   },
   async mounted() {
-    let res = await ky.get("http://54.169.249.3:8080/getAllReceived").json();
+    let res = await ky.get("PLC_API_ADDRESS/getAllReceived").json();
     const data = res.Item;
     this.receivedItems.mask = data.mask;
     this.receivedItems.thermometer = data.thermometer;
     this.receivedItems.sanitiser = data.handSanitiser;
     this.receivedItems.ziploc = data.ziploc;
-    res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    res = await ky.get("PLC_API_ADDRESS/getFinished").json();
     for (const section of res) {
       this.finishedBoxes += section.quantity;
     }
-    res = await ky.get("http://54.169.249.3:8080/totalShipped").json();
+    res = await ky.get("PLC_API_ADDRESS/totalShipped").json();
     this.shipped = res[0].totalBoxes;
-  }
+  },
 };
 </script>
 

@@ -17,28 +17,28 @@ export default {
   props: {
     rank: {
       type: Number,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     qty: {
       type: Number,
-      required: true
+      required: true,
     },
     currentShiftBoxTarget: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     classObject() {
       // let styling = "";
       // if()
       // return styling;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -18,27 +18,27 @@ export default {
   name: "finished",
   components: {
     Progress,
-    Leaderboard
+    Leaderboard,
   },
   sockets: {
     updatedStationQty(val) {
       const stationName = val.id.split("-")[1];
       const station = this.stationList.find(
-        ele => ele.stationNo === stationName
+        (ele) => ele.stationNo === stationName
       );
       if (station) station.quantity = val.qty;
       else this.stationList.push({ stationNo: stationName, quantity: val.qty });
-    }
+    },
   },
   data() {
     return {
       stationList: [],
       nextPageTimeout: null,
-      currentShift: 1
+      currentShift: 1,
     };
   },
   async mounted() {
-    const res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    const res = await ky.get("PLC_API_ADDRESS/getFinished").json();
     const currShift = getCurrentShift();
     this.stationList = this.getCurrShiftList(res, currShift);
     this.currentShift = parseInt(currShift);
@@ -66,12 +66,12 @@ export default {
         if (isCurrShift)
           retList.push({
             stationNo: stationNameSplit[1],
-            quantity: shiftItem.quantity
+            quantity: shiftItem.quantity,
           });
       }
       return retList;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

@@ -29,22 +29,22 @@ export default {
   props: {
     shipped: {
       type: Number,
-      required: true
+      required: true,
     },
     delivered: {
       type: Number,
-      required: true
+      required: true,
     },
     finished: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   sockets: {
     shippedValues(val) {
       this.shipped = val[0].totalBoxes;
-    }
-  }
+    },
+  },
 };
 </script>
 

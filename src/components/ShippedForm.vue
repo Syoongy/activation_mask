@@ -31,7 +31,7 @@
     <div class="field">
       <div class="control">
         <button
-          class="button  is-fullwidth"
+          class="button is-fullwidth"
           :class="{ 'is-success': canSubmit, 'is-danger': !canSubmit }"
           :disabled="!canSubmit"
           @click="submitForm"
@@ -50,14 +50,14 @@ export default {
   computed: {
     canSubmit() {
       return this.qty > 0 && this.deliveryId > 0;
-    }
+    },
   },
   data() {
     return {
       qty: 0,
       deliveryId: 0,
       isQtyCorrect: true,
-      isDeliveryCorrect: true
+      isDeliveryCorrect: true,
     };
   },
   methods: {
@@ -69,11 +69,11 @@ export default {
       );
       //Node api
       const res = await ky
-        .post("http://54.169.249.3:8080/shipped", {
+        .post("PLC_API_ADDRESS/shipped", {
           json: {
             numBoxes: this.qty,
-            deliveryLocationId: this.deliveryId
-          }
+            deliveryLocationId: this.deliveryId,
+          },
         })
         .json();
       this.$socket.client.emit("addToShipped");
@@ -85,7 +85,7 @@ export default {
         title: "Success!",
         text: `The ID is ${res[0].uniqueId}`,
         duration: 1000,
-        max: 1
+        max: 1,
       });
     },
     isGreaterThanZero(value) {
@@ -96,8 +96,8 @@ export default {
     },
     validateDelivery() {
       this.isDeliveryCorrect = this.isGreaterThanZero(this.deliveryId);
-    }
-  }
+    },
+  },
 };
 </script>
 

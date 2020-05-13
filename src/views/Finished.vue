@@ -12,7 +12,7 @@ import FinishedForm from "@/components/FinishedForm.vue";
 export default {
   name: "finished",
   components: {
-    FinishedForm
-  }
+    FinishedForm,
+  },
 };
 </script>

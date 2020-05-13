@@ -66,7 +66,7 @@ import ky from "ky";
 export default {
   components: {
     RequirementDelta,
-    RawMaterials
+    RawMaterials,
   },
   sockets: {
     receivedValues(val) {
@@ -82,7 +82,7 @@ export default {
         newFinishedBoxesValues += section.quantity;
       }
       this.finishedBoxes = newFinishedBoxesValues;
-    }
+    },
   },
   computed: {
     remainingItems() {
@@ -162,8 +162,7 @@ export default {
       const currentRequiredPacks = Math.round(
         elapsedHours * this.targetPacksPerHour
       );
-      let saftiCurrentRequiredPacks = currentRequiredPacks - (26 * 200)
-
+      let saftiCurrentRequiredPacks = currentRequiredPacks - 26 * 200;
 
       const delta = finishedPacks - currentRequiredPacks;
       const saftiDelta = saftiFinishedPacks - saftiCurrentRequiredPacks;
@@ -171,7 +170,7 @@ export default {
       // ETA CALCULATION
       // const totalTarget = 1596800
       const plcTarget = 1596800 / 2;
-      const saftiTarget = (1596800 / 2) - (26 * 200);
+      const saftiTarget = 1596800 / 2 - 26 * 200;
       const totalTarget = plcTarget + saftiTarget;
 
       // Set Max
@@ -193,9 +192,9 @@ export default {
           finishedPacks + saftiFinishedPacks
         ),
         totalRequiredPacks: numberWithCommas(currentRequiredPacks * 2),
-        totalDelta: numberWithCommas(delta + saftiDelta)
+        totalDelta: numberWithCommas(delta + saftiDelta),
       };
-    }
+    },
     // currentRawMaterials() {
     //   return {
     //     finishedPacks: numberWithCommas(finishedPacks),
@@ -226,7 +225,7 @@ export default {
       saftiFinishedBoxes: 0,
       currentDateObj: new Date(),
       myInterval: null,
-      saftiSocket: null
+      saftiSocket: null,
     };
   },
   methods: {
@@ -244,35 +243,35 @@ export default {
         newFinishedBoxesValues += section.quantity;
       }
       this.saftiFinishedBoxes = newFinishedBoxesValues;
-    }
+    },
   },
   async mounted() {
     //Setup safti socket
-    this.saftiSocket = io("http://54.254.221.3:8080");
+    this.saftiSocket = io("SAFTI_API_ADDRESS");
     this.saftiSocket.on("receivedValues", this.setSaftiReceivedItems);
     this.saftiSocket.on("finishedValues", this.setSaftiFinishedBoxes);
 
     //Retrieve data
-    let res = await ky.get("http://54.169.249.3:8080/getAllReceived").json();
+    let res = await ky.get("PLC_API_ADDRESS/getAllReceived").json();
     let data = res.Item;
     this.receivedItems.mask = data.mask;
     this.receivedItems.thermometer = data.thermometer;
     this.receivedItems.sanitiser = data.handSanitiser;
     this.receivedItems.ziploc = data.ziploc;
 
-    res = await ky.get("http://54.254.221.3:8080/getAllReceived").json();
+    res = await ky.get("SAFTI_API_ADDRESS/getAllReceived").json();
     data = res.Item;
     this.saftiReceivedItems.mask = data.mask;
     this.saftiReceivedItems.thermometer = data.thermometer;
     this.saftiReceivedItems.sanitiser = data.handSanitiser;
     this.saftiReceivedItems.ziploc = data.ziploc;
 
-    res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    res = await ky.get("PLC_API_ADDRESS/getFinished").json();
     for (const section of res) {
       this.finishedBoxes += section.quantity;
     }
 
-    res = await ky.get("http://54.254.221.3:8080/getFinished").json();
+    res = await ky.get("SAFTI_API_ADDRESS/getFinished").json();
     for (const section of res) {
       this.saftiFinishedBoxes += section.quantity;
     }
@@ -283,7 +282,7 @@ export default {
   },
   beforeDestroy() {
     this.myInterval == null;
-  }
+  },
 };
 </script>
 

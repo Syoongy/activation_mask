@@ -24,7 +24,7 @@ import ky from "ky";
 
 export default {
   components: {
-    CombinedHall
+    CombinedHall,
   },
   sockets: {
     receivedValues(val) {
@@ -42,7 +42,7 @@ export default {
         if (isCurrShift) newFinishedBoxesValues += section.quantity;
       }
       this.finishedBoxes = newFinishedBoxesValues;
-    }
+    },
   },
   data() {
     return {
@@ -62,7 +62,7 @@ export default {
       currentDateObj: new Date(),
       nextPageTimeout: null,
       saftiSocket: null,
-      currShift: 1
+      currShift: 1,
     };
   },
   methods: {
@@ -74,23 +74,23 @@ export default {
         if (isCurrShift) newFinishedBoxesValues += section.quantity;
       }
       this.saftiFinishedBoxes = newFinishedBoxesValues;
-    }
+    },
   },
   async mounted() {
     this.currShift = getCurrentShift();
     //Setup safti socket
-    this.saftiSocket = io("http://54.254.221.3:8080");
+    this.saftiSocket = io("SAFTI_API_ADDRESS");
     this.saftiSocket.on("receivedValues", this.setSaftiReceivedItems);
     this.saftiSocket.on("finishedValues", this.setSaftiFinishedBoxes);
 
-    let res = await ky.get("http://54.169.249.3:8080/getFinished").json();
+    let res = await ky.get("PLC_API_ADDRESS/getFinished").json();
     for (const section of res) {
       const stationNameSplit = section.stationNo.split("-");
       const isCurrShift = stationNameSplit[0] === this.currShift;
       if (isCurrShift) this.finishedBoxes += section.quantity;
     }
 
-    res = await ky.get("http://54.254.221.3:8080/getFinished").json();
+    res = await ky.get("SAFTI_API_ADDRESS/getFinished").json();
     for (const section of res) {
       const stationNameSplit = section.stationNo.split("-");
       const isCurrShift = stationNameSplit[0] === this.currShift;
@@ -103,7 +103,7 @@ export default {
   },
   beforeDestroy() {
     this.nextPageTimeout = null;
-  }
+  },
 };
 </script>
 

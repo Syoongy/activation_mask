@@ -89,12 +89,12 @@ import getCurrentShift from "@/plugins/getCurrentShift";
 export default {
   name: "FinishedForm",
   components: {
-    FinishedLogs
+    FinishedLogs,
   },
   sockets: {
     lastFewFinishedValues(val) {
       this.logs = val;
-    }
+    },
   },
   computed: {
     canSubmit() {
@@ -103,7 +103,7 @@ export default {
     name() {
       const name = `${this.session}-${this.sAlpha}${this.sNum}`;
       return name;
-    }
+    },
   },
   data() {
     return {
@@ -114,15 +114,13 @@ export default {
       isNameCorrect: true,
       isQtyCorrect: true,
       modalIsActive: false,
-      logs: []
+      logs: [],
     };
   },
   async mounted() {
     this.session = getCurrentShift();
 
-    const res = await ky
-      .get("http://54.169.249.3:8080/getLastFewFinished")
-      .json();
+    const res = await ky.get("PLC_API_ADDRESS/getLastFewFinished").json();
     this.logs = res;
   },
   methods: {
@@ -138,17 +136,15 @@ export default {
       // );
       //Node api
       const res = await ky
-        .post("http://54.169.249.3:8080/addFinished", {
+        .post("PLC_API_ADDRESS/addFinished", {
           json: {
             stationNo: this.name,
-            quantity: this.qty
-          }
+            quantity: this.qty,
+          },
         })
         .json();
       this.$socket.client.emit("addToStationNo", this.name);
-      const logRes = await ky
-        .get("http://54.169.249.3:8080/getLastFewFinished")
-        .json();
+      const logRes = await ky.get("PLC_API_ADDRESS/getLastFewFinished").json();
       this.logs = logRes;
       this.sAlpha = "A";
       this.sNum = "1";
@@ -160,7 +156,7 @@ export default {
         title: "Success!",
         text: `The ID is ${res[0].uniqueId}`,
         duration: 3000,
-        max: 1
+        max: 1,
       });
     },
     validateName() {
@@ -168,7 +164,7 @@ export default {
     },
     validateQty() {
       this.isQtyCorrect = this.qty > 0 && this.qty < 51;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -7,22 +7,23 @@ const routes = [
   {
     path: "/",
     name: "dashboard",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Dashboard")
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/Dashboard"),
   },
   {
     path: "/finished",
     name: "finished",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Finished")
+    component: () => import(/* webpackChunkName: "home" */ "../views/Finished"),
   },
   {
     path: "/received",
     name: "received",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Received")
+    component: () => import(/* webpackChunkName: "home" */ "../views/Received"),
   },
   {
     path: "/shipped",
     name: "shipped",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Shipped")
+    component: () => import(/* webpackChunkName: "home" */ "../views/Shipped"),
   },
   {
     path: "/about/:id",
@@ -30,31 +31,33 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/About")
+    component: () => import(/* webpackChunkName: "about" */ "../views/About"),
   },
   {
     path: "/statistics/quantity",
     name: "quantity",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/statistics/Quantity")
+      import(/* webpackChunkName: "home" */ "../views/statistics/Quantity"),
   },
   {
     path: "/opsCombined99",
     name: "opsCombined99",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/statistics/Combined")
+      import(/* webpackChunkName: "home" */ "../views/statistics/Combined"),
   },
   {
     path: "/opsCombinedETA99",
     name: "opsCombinedETA99",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/statistics/CombinedWithETA")
+      import(
+        /* webpackChunkName: "home" */ "../views/statistics/CombinedWithETA"
+      ),
   },
   {
     path: "/statistics/combinedHall",
     name: "combinedHall",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/statistics/CombinedHall")
+      import(/* webpackChunkName: "home" */ "../views/statistics/CombinedHall"),
   },
   {
     path: "/statistics/saftiCombinedHall",
@@ -62,25 +65,25 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "home" */ "../views/statistics/saftiCombinedHall"
-      )
+      ),
   },
   {
     path: "/scoreboard",
     name: "scoreboard",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/Scoreboard")
+      import(/* webpackChunkName: "home" */ "../views/Scoreboard"),
   },
   {
     path: "/finale",
     name: "finale",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Finale")
-  }
+    component: () => import(/* webpackChunkName: "home" */ "../views/Finale"),
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;
