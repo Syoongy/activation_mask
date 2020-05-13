@@ -28,10 +28,7 @@
             <option value="D">D</option>
             <option value="E">E</option>
             <option value="F">F</option>
-            <option value="F">G</option>
-            <option value="F">H</option>
-            <option value="F">I</option>
-            <option value="F">J</option>
+            <option value="G">G</option>
           </select>
         </div>
       </div>
@@ -43,6 +40,9 @@
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
           </select>
         </div>
       </div>
@@ -59,6 +59,7 @@
         </button>
       </div>
     </div>
+    <FinishedLogs :logs="logs" />
     <div class="modal" :class="{ 'is-active': modalIsActive }">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -81,9 +82,20 @@
 </template>
 
 <script>
+import FinishedLogs from "@/components/FinishedLogs.vue";
 import ky from "ky";
+import getCurrentShift from "@/plugins/getCurrentShift";
+
 export default {
   name: "FinishedForm",
+  components: {
+    FinishedLogs,
+  },
+  sockets: {
+    lastFewFinishedValues(val) {
+      this.logs = val;
+    },
+  },
   computed: {
     canSubmit() {
       return this.qty >= 1 && this.qty <= 50;
@@ -91,7 +103,7 @@ export default {
     name() {
       const name = `${this.session}-${this.sAlpha}${this.sNum}`;
       return name;
-    }
+    },
   },
   data() {
     return {
@@ -101,8 +113,15 @@ export default {
       qty: 1,
       isNameCorrect: true,
       isQtyCorrect: true,
-      modalIsActive: false
+      modalIsActive: false,
+      logs: [],
     };
+  },
+  async mounted() {
+    this.session = getCurrentShift();
+
+    const res = await ky.get("PLC_API_ADDRESS/getLastFewFinished").json();
+    this.logs = res;
   },
   methods: {
     toggleModal() {
@@ -112,30 +131,32 @@ export default {
       this.toggleModal();
       //submit to api here
       //Python api
-      await ky.get(
-        `http://supplypacking.pythonanywhere.com/add_production/${this.name}/${this.qty}/`
-      );
+      // await ky.get(
+      //   `http://supplypacking.pythonanywhere.com/add_production/${this.name}/${this.qty}/`
+      // );
       //Node api
       const res = await ky
-        .post("http://54.254.221.3/:8080/addFinished", {
+        .post("PLC_API_ADDRESS/addFinished", {
           json: {
             stationNo: this.name,
-            quantity: this.qty
-          }
+            quantity: this.qty,
+          },
         })
         .json();
       this.$socket.client.emit("addToStationNo", this.name);
+      const logRes = await ky.get("PLC_API_ADDRESS/getLastFewFinished").json();
+      this.logs = logRes;
       this.sAlpha = "A";
       this.sNum = "1";
-      this.session = "1";
+      this.session = getCurrentShift();
       this.qty = 1;
       this.$notify({
         group: "submitReq",
         type: "my-success",
         title: "Success!",
         text: `The ID is ${res[0].uniqueId}`,
-        duration: -1000,
-        max: 1
+        duration: 3000,
+        max: 1,
       });
     },
     validateName() {
@@ -143,7 +164,7 @@ export default {
     },
     validateQty() {
       this.isQtyCorrect = this.qty > 0 && this.qty < 51;
-    }
-  }
+    },
+  },
 };
 </script>

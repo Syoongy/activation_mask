@@ -10,14 +10,14 @@
 import Tile from "./Tile";
 export default {
   components: {
-    Tile
+    Tile,
   },
   props: {
     stations: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

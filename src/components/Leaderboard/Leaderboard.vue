@@ -1,5 +1,10 @@
 <template>
   <div id="leaderboard-container">
+    <div id="count-container" class="is-flex is-centered-flex">
+      <p class="has-text-weight-bold is-size-1 has-text-white">
+        CHAMPION TABLES
+      </p>
+    </div>
     <div id="tile-container" class="is-flex is-centered-flex">
       <transition-group id="transition-styling" name="leaderboard-list">
         <LeaderboardTile
@@ -8,6 +13,7 @@
           :name="station.stationNo"
           :qty="station.quantity"
           :key="station.stationNo"
+          :currentShiftBoxTarget="currentShiftBoxTarget"
         />
       </transition-group>
     </div>
@@ -21,11 +27,15 @@ export default {
   props: {
     stations: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
+    currentShift: {
+      type: Number,
+      required: true,
+    },
   },
   components: {
-    LeaderboardTile
+    LeaderboardTile,
   },
   computed: {
     sortedStations() {
@@ -36,7 +46,15 @@ export default {
         else return 0;
       });
       return listToSort;
-    }
+    },
+    currentShiftBoxTarget() {
+      const currentShift = this.currentShift;
+      if (currentShift % 2 == 0) {
+        return 18;
+      } else {
+        return 20;
+      }
+    },
     // computedStations() {
     //   const retStations = this.stations;
     //   for (const station of retStations) {
@@ -47,7 +65,7 @@ export default {
     //   }
     //   return retStations;
     // }
-  }
+  },
 };
 </script>
 

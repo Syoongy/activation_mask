@@ -63,34 +63,42 @@ c0.59-0.63,1.38-0.94,2.37-0.94h20.33c0.9,0,1.67,0.31,2.3,0.94C474.56,2.91,474.88
 <script>
 import TotalCount from "./TotalCount";
 import ldBar from "@loadingio/loading-bar";
+import getCurrentShift from "@/plugins/getCurrentShift";
 import ky from "ky";
 export default {
   components: {
-    TotalCount
+    TotalCount,
   },
   sockets: {
     totalFinishedValues(val) {
       this.boxCompleted = val.totalQuantity;
+      this.boxCompleted -= this.prevQty;
       this.bar.set(this.progress);
-    }
+    },
   },
   computed: {
     progress() {
       return (this.boxCompleted / this.boxTarget) * 100;
-    }
+    },
   },
   data() {
     return {
       bar: null,
-      boxTarget: 756,
-      boxCompleted: 0
+      boxTarget: 840,
+      boxCompleted: 0,
+      prevQty: 0,
     };
   },
   async mounted() {
-    const res = await ky
-      .get("http://54.254.221.3/:8080/getTotalFinished")
-      .json();
+    let res = await ky.get("PLC_API_ADDRESS/getTotalFinished").json();
+    const currShift = getCurrentShift();
+    //If even then = (afternoon shift)
+    if (currShift % 2 === 0) this.boxTarget = 756;
     this.boxCompleted = res.totalQuantity;
+
+    res = await ky.get("PLC_API_ADDRESS/getFinished").json();
+    this.prevQty = this.getPrevShiftQty(res, currShift);
+    this.boxCompleted -= this.prevQty;
     /* construct manually */
     this.bar = new ldBar("#progressBar", {
       type: "fill",
@@ -98,11 +106,21 @@ export default {
       fill: "#23d160",
       "fill-background": "#F4F4F4",
       "fill-background-extrude": 0,
-      "transition-in": 1
+      "transition-in": 1,
     });
     this.bar.set(this.progress);
   },
-  methods: {}
+  methods: {
+    getPrevShiftQty(allFinished, currShift) {
+      let prevQty = 0;
+      for (const shiftItem of allFinished) {
+        const stationNameSplit = shiftItem.stationNo.split("-");
+        const isPrevShift = stationNameSplit[0] !== currShift;
+        if (isPrevShift) prevQty += shiftItem.quantity;
+      }
+      return prevQty;
+    },
+  },
 };
 </script>
 

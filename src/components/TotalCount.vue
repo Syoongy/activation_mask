@@ -11,16 +11,16 @@ export default {
   props: {
     boxTarget: {
       type: Number,
-      required: true
+      required: true,
     },
     boxCompleted: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {};
-  }
+  },
 };
 </script>
 

@@ -29,17 +29,17 @@ export default {
   props: {
     finished: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
   sockets: {
     shippedValues(val) {
       this.shipped = val[0].totalBoxes;
-    }
+    },
   },
   data() {
     return {
-      targetNoBoxes: 0
+      targetNoBoxes: 0,
     };
   },
   methods: {
@@ -97,10 +97,10 @@ export default {
         targetPerHour: targetPerHour,
         targetPerShift: targetPerShift,
         targetPerTablePerHour: targetPerTablePerHour,
-        targetPerTablePerShift: targetPerTablePerShift
+        targetPerTablePerShift: targetPerTablePerShift,
       };
-    }
-  }
+    },
+  },
 };
 </script>
 

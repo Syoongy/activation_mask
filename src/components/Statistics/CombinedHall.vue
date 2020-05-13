@@ -4,10 +4,10 @@
     class="container columns is-multiline is-centered"
   >
     <div
-      class="column box has-background-black-ter has-text-centered has-text-warning"
+      class="column box has-background-black-ter has-text-centered has-text-white"
     >
-      <p class="has-text-weight-bold is-size-3">Shipped</p>
-      <p class="is-size-4">{{ shipped }}</p>
+      <p class="has-text-weight-bold is-size-1">{{ title }}</p>
+      <p class="has-text-weight-bold is-size-1">{{ finishedPacks }}</p>
     </div>
     <!-- <div
       class="column box has-background-black-ter has-text-centered has-text-success"
@@ -15,27 +15,23 @@
       <p class="has-text-weight-bold is-size-3">Delivered</p>
       <p class="is-size-4">{{ delivered }}</p>
     </div> -->
-    <div
-      class="column box has-background-black-ter has-text-centered has-text-success"
+    <!-- <div
+      class="column box has-background-black-ter has-text-centered has-text-warning"
     >
-      <p class="has-text-weight-bold is-size-3">Finished</p>
-      <p class="is-size-4">{{ finished }}</p>
-    </div>
+      <p class="has-text-weight-bold is-size-3">Current Required Packs</p>
+      <p class="is-size-4">{{ currentRequiredPacks }}</p>
+    </div> -->
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    shipped: {
-      type: Number,
+    title: {
+      type: String,
       required: true,
     },
-    delivered: {
-      type: Number,
-      required: true,
-    },
-    finished: {
+    finishedPacks: {
       type: Number,
       required: true,
     },

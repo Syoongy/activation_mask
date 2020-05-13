@@ -52,7 +52,7 @@ function dynamicTargets(targetBoxes, numFinished, numTables) {
     targetPerHour: targetPerHour,
     targetPerShift: targetPerShift,
     targetPerTablePerHour: targetPerTablePerHour,
-    targetPerTablePerShift: targetPerTablePerShift
+    targetPerTablePerShift: targetPerTablePerShift,
   };
 }
 

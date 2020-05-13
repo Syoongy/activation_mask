@@ -126,7 +126,7 @@ export default {
       let retString = "error";
       if (this.ziploc !== "") retString = converter.toWords(this.ziploc);
       return retString;
-    }
+    },
   },
   data() {
     return {
@@ -138,7 +138,7 @@ export default {
       isThermometerCorrect: true,
       isSanitiserCorrect: true,
       isZiplocCorrect: true,
-      modalIsActive: false
+      modalIsActive: false,
     };
   },
   methods: {
@@ -146,23 +146,23 @@ export default {
       this.modalIsActive = !this.modalIsActive;
     },
     async submitForm() {
-      this.toggleModal;
+      this.toggleModal();
       //submit to api here
       const dataString = encodeURI(
         `m=${this.mask}&t=${this.thermometer}&h=${this.sanitiser}&z=${this.ziploc}`
       );
       //Python api
-      await ky.get(
-        `http://supplypacking.pythonanywhere.com/add/${dataString}/`
-      );
+      // await ky.get(
+      //   `http://supplypacking.pythonanywhere.com/add/${dataString}/`
+      // );
       //Node api
-      await ky.post("http://54.254.221.3/:8080/addReceived", {
+      await ky.post("PLC_API_ADDRESS/addReceived", {
         json: {
           mask: this.mask,
           thermometer: this.thermometer,
           ziploc: this.ziploc,
-          handSanitiser: this.sanitiser
-        }
+          handSanitiser: this.sanitiser,
+        },
       });
       this.$socket.client.emit("addToReceived");
       this.mask = 0;
@@ -174,8 +174,8 @@ export default {
         type: "my-success",
         title: "Success!",
         text: "Input has been submitted!",
-        duration: 1000,
-        max: 1
+        duration: 3000,
+        max: 1,
       });
     },
     isGreaterThanEqualToZero(value) {
@@ -195,8 +195,8 @@ export default {
     },
     validateZiploc() {
       this.isZiplocCorrect = this.isGreaterThanEqualToZero(this.ziploc);
-    }
-  }
+    },
+  },
 };
 </script>
 

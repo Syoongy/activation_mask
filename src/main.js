@@ -5,13 +5,15 @@ import Notifications from "vue-notification";
 import VueSocketIOExt from "vue-socket.io-extended";
 import io from "socket.io-client";
 
-const socket = io("http://54.254.221.3/:8080");
+// PLC IP
+const socket = io("PLC_API_ADDRESS");
 Vue.use(VueSocketIOExt, socket);
+// Vue.use(VueSocketIOExt, socket1);
 Vue.use(Notifications);
 Vue.config.productionTip = false;
 import "@/assets/bulma.min.css";
 
 new Vue({
   router,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");
