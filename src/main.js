@@ -7,8 +7,6 @@ import io from "socket.io-client";
 
 // PLC IP
 const socket = io("PLC_API_ADDRESS");
-// SAFTI IP
-// const socket1 = io("SAFTI_API_ADDRESS");
 Vue.use(VueSocketIOExt, socket);
 // Vue.use(VueSocketIOExt, socket1);
 Vue.use(Notifications);

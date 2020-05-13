@@ -29,25 +29,34 @@ export default {
       if (this.station.isStation) {
         switch (this.station.letter) {
           case "A":
-            styling = "has-background-a";
+            styling = "wolf";
             break;
           case "B":
-            styling = "has-background-b";
+            styling = "wolf-alternate";
             break;
           case "C":
-            styling = "has-background-c";
+            styling = "wolf";
             break;
           case "D":
-            styling = "has-background-d";
+            styling = "wolf-alternate";
             break;
           case "E":
-            styling = "has-background-danger";
+            styling = "wolf";
             break;
           case "F":
-            styling = "has-background-black has-text-white";
+            styling = "bear";
             break;
           case "G":
-            styling = "has-background-success";
+            styling = "bear-alternate";
+            break;
+          case "H":
+            styling = "bear";
+            break;
+          case "I":
+            styling = "bear-alternate";
+            break;
+          case "J":
+            styling = "bear";
             break;
           default:
             break;
@@ -72,19 +81,19 @@ export default {
   margin-bottom: 1rem;
 }
 
-.has-background-a {
-  background-color: #12005e !important;
+.wolf {
+  background-color: #002f6c !important;
 }
 
-.has-background-b {
-  background-color: #003d00 !important;
+.wolf-alternate {
+  background-color: #01579b !important;
 }
 
-.has-background-c {
-  background-color: #002171 !important;
+.bear {
+  background-color: #b71c1c !important;
 }
 
-.has-background-d {
-  background-color: #ac1900 !important;
+.bear-alternate {
+  background-color: #f05545 !important;
 }
 </style>
