@@ -8,75 +8,72 @@ const routes = [
     path: "/",
     name: "dashboard",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/Dashboard"),
+      import(/* webpackChunkName: "dashboard" */ "../views/Dashboard"),
   },
   {
     path: "/finished",
     name: "finished",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Finished"),
+    component: () =>
+      import(/* webpackChunkName: "finished" */ "../views/Finished"),
   },
   {
     path: "/received",
     name: "received",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Received"),
+    component: () =>
+      import(/* webpackChunkName: "received" */ "../views/Received"),
   },
   {
     path: "/shipped",
     name: "shipped",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Shipped"),
-  },
-  {
-    path: "/about/:id",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/About"),
+    component: () =>
+      import(/* webpackChunkName: "shipped" */ "../views/Shipped"),
   },
   {
     path: "/statistics/quantity",
     name: "quantity",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/statistics/Quantity"),
+      import(/* webpackChunkName: "quantity" */ "../views/statistics/Quantity"),
   },
   {
     path: "/opsCombined99",
     name: "opsCombined99",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/statistics/Combined"),
+      import(/* webpackChunkName: "combined" */ "../views/statistics/Combined"),
   },
   {
     path: "/opsCombinedETA99",
     name: "opsCombinedETA99",
     component: () =>
       import(
-        /* webpackChunkName: "home" */ "../views/statistics/CombinedWithETA"
+        /* webpackChunkName: "combinedeta" */ "../views/statistics/CombinedWithETA"
       ),
   },
   {
     path: "/statistics/combinedHall",
     name: "combinedHall",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/statistics/CombinedHall"),
+      import(
+        /* webpackChunkName: "combinedhall" */ "../views/statistics/CombinedHall"
+      ),
   },
   {
     path: "/statistics/saftiCombinedHall",
     name: "combinedHall",
     component: () =>
       import(
-        /* webpackChunkName: "home" */ "../views/statistics/saftiCombinedHall"
+        /* webpackChunkName: "safticombinedhall" */ "../views/statistics/saftiCombinedHall"
       ),
   },
   {
     path: "/scoreboard",
     name: "scoreboard",
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/Scoreboard"),
+      import(/* webpackChunkName: "scoreboard" */ "../views/Scoreboard"),
   },
   {
     path: "/finale",
     name: "finale",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Finale"),
+    component: () => import(/* webpackChunkName: "finale" */ "../views/Finale"),
   },
 ];
 
